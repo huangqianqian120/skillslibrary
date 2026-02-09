@@ -58,7 +58,10 @@ export const skills: Skill[] = [
   { id: 'video-frames', name: 'video-frames', description: 'Extract frames or short clips from videos using ffmpeg.', category: 'Development' },
   { id: 'voice-call', name: 'voice-call', description: 'Start voice calls via the OpenClaw voice-call plugin.', category: 'Communication' },
   { id: 'wacli', name: 'wacli', description: 'Send WhatsApp messages to other people or search/sync WhatsApp history via the wacli CLI (not for normal user chats).', category: 'Communication' },
-  { id: 'weather', name: 'weather', description: 'Get current weather and forecasts (no API key required).', category: 'Lifestyle' }
+  { id: 'weather', name: 'weather', description: 'Get current weather and forecasts (no API key required).', category: 'Lifestyle' },
+  { id: 'bmap-jsapi-gl', name: 'bmap-jsapi-gl', description: '百度地图 JSAPI WebGL (BMapGL) 开发指南：地图初始化、覆盖物、事件、图层、路径规划、地理编码等。适用于2D/2.5D地图开发。', category: 'Development' },
+  { id: 'bmap-jsapi-three', name: 'bmap-jsapi-three', description: '百度地图 JSAPI Three (MapVThree)：基于three.js的二三维一体化地图可视化库，支持3D模型加载、地理数据可视化、测量编辑、环境渲染等。', category: 'Development' },
+  { id: 'jsapi-ui-kit', name: 'jsapi-ui-kit', description: '百度地图轻量级UI组件库 (@baidumap/jsapi-ui-kit)，提供 PlaceSearch（地点搜索）和 PlaceDetail（POI详情展示）组件。', category: 'Development' }
 ]
 
 export const categories = [
