@@ -2,6 +2,8 @@
 
 import { useState, useMemo, createContext, useContext } from 'react'
 import { skills, categories } from '@/data/skills'
+import Link from 'next/link'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 // Scenes/Roles configuration
 const scenes = [
@@ -94,6 +96,7 @@ function t(key: keyof typeof translations.en, lang: Language, params?: Record<st
 }
 
 export default function Home() {
+  const { data: session } = useSession()
   const [lang, setLang] = useState<Language>('en')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -139,8 +142,8 @@ export default function Home() {
                 </h1>
               </div>
 
-              {/* Language Switch */}
-              <div className="flex items-center gap-2">
+              {/* Language Switch & Auth */}
+              <div className="flex items-center gap-4">
                 <div className="flex items-center bg-gray-50 rounded-lg p-1">
                   <button
                     onClick={() => setLang('en')}
@@ -159,6 +162,32 @@ export default function Home() {
                     中文
                   </button>
                 </div>
+
+                {/* Login/Logout Button */}
+                {session ? (
+                  <div className="flex items-center gap-3">
+                    {session.user?.image && (
+                      <img 
+                        src={session.user.image} 
+                        alt={session.user.name || ''}
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
+                    <button
+                      onClick={() => signOut()}
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      登出
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => signIn()}
+                    className="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
+                  >
+                    登录
+                  </button>
+                )}
               </div>
             </div>
           </div>
