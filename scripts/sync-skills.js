@@ -39,7 +39,8 @@ function fetchJson(url, retries = 3) {
       https.get(url, { 
         headers: { 
           'Accept': 'application/vnd.github.v3+json',
-          'User-Agent': 'SkillsLibrary-Sync'
+          'User-Agent': 'SkillsLibrary-Sync',
+          ...(process.env.GITHUB_TOKEN ? { 'Authorization': `token ${process.env.GITHUB_TOKEN}` } : {})
         },
         timeout: 10000
       }, (res) => {
