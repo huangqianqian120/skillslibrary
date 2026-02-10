@@ -325,7 +325,7 @@ export default function Home() {
         <footer className="border-t border-gray-100 mt-12">
           <div className="max-w-6xl mx-auto px-6 py-8">
             <p className="text-center text-xs text-gray-300">
-              skillslibrary.fun
+              skillslibrary.fun (v0.1.1)
             </p>
           </div>
         </footer>
