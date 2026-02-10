@@ -3,7 +3,7 @@
 import { skills, categories } from '@/data/skills'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import { SEOHead } from '@/app/components/SEO'
 
 // Translations
@@ -42,10 +42,6 @@ const translations = {
 type Language = 'en' | 'zh'
 const LanguageContext = createContext<Language>('en')
 
-function useLanguage() {
-  return useContext(LanguageContext)
-}
-
 function t(key: keyof typeof translations.en, lang: Language, params?: Record<string, string | number>) {
   let text = translations[lang][key] || translations.en[key] || key
   if (params) {
@@ -79,7 +75,6 @@ export default function SkillPage() {
   }
 
   const colorIndex = skill.name.charCodeAt(0) % colorOptions.length
-  const gradient = colorOptions[colorIndex]
   const categorySkills = skills.filter(s => s.category === skill.category)
   const relatedSkills = skills.filter(s => s.category === skill.category && s.id !== skill.id).slice(0, 4)
 

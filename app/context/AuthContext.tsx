@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, ReactNode } from 'react'
 import { SessionProvider, useSession, signIn, signOut } from 'next-auth/react'
 
 interface User {
@@ -20,19 +20,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 function AuthProviderInner({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession()
-  const [user, setUser] = useState<User | null>(null)
 
-  useEffect(() => {
-    if (session?.user) {
-      setUser({
+  const user: User | null = session?.user
+    ? {
         email: session.user.email,
         name: session.user.name,
         image: session.user.image,
-      })
-    } else {
-      setUser(null)
-    }
-  }, [session])
+      }
+    : null
 
   const login = () => {
     signIn()

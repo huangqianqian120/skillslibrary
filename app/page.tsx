@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useMemo, createContext, useContext } from 'react'
+import { useState, useMemo, createContext } from 'react'
 import { skills, categories } from '@/data/skills'
-import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 // Scenes/Roles configuration
@@ -80,10 +79,6 @@ const translations = {
 // Language Context
 type Language = 'en' | 'zh'
 const LanguageContext = createContext<Language>('en')
-
-function useLanguage() {
-  return useContext(LanguageContext)
-}
 
 function t(key: keyof typeof translations.en, lang: Language, params?: Record<string, string | number>) {
   let text = translations[lang][key] || translations.en[key] || key
@@ -167,6 +162,7 @@ export default function Home() {
                 {session ? (
                   <div className="flex items-center gap-3">
                     {session.user?.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img 
                         src={session.user.image} 
                         alt={session.user.name || ''}
@@ -312,7 +308,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 gap-3">
                 {filteredSkills.map(skill => (
-                  <SkillCard key={skill.id} skill={skill} lang={lang} />
+                  <SkillCard key={skill.id} skill={skill} />
                 ))}
               </div>
               
@@ -338,7 +334,7 @@ export default function Home() {
   )
 }
 
-function SkillCard({ skill, lang }: { skill: typeof skills[0]; lang: Language }) {
+function SkillCard({ skill }: { skill: typeof skills[0] }) {
   return (
     <a
       href={`/skill/${skill.id}`}
