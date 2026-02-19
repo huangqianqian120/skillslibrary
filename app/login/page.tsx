@@ -2,10 +2,18 @@
 
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const errorParam = searchParams.get('error')
+    if (errorParam) {
+      setError(errorParam)
+    }
+  }, [searchParams])
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
