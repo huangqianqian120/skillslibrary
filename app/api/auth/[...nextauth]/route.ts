@@ -6,10 +6,14 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
+      httpOptions: {
+        timeout: 10000,
+      },
     }),
   ],
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   callbacks: {
     async jwt({ token, user, account }) {
@@ -26,7 +30,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
 }
 
 const handler = NextAuth(authOptions)

@@ -1,8 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const error = searchParams.get('error')
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
@@ -12,6 +16,15 @@ export default function LoginPage() {
             <h1 className="text-2xl font-medium text-gray-900">技能库</h1>
           </Link>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+            登录失败: {error}
+            <br />
+            <span className="text-red-400">请确认 GitHub OAuth 配置正确</span>
+          </div>
+        )}
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
