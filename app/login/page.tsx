@@ -1,19 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function LoginPage() {
-  const searchParams = useSearchParams()
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const errorParam = searchParams.get('error')
+    // Get error from URL
+    const params = new URLSearchParams(window.location.search)
+    const errorParam = params.get('error')
     if (errorParam) {
       setError(errorParam)
     }
-  }, [searchParams])
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -27,10 +27,10 @@ export default function LoginPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
-            登录失败: {error}
-            <br />
-            <span className="text-red-400">请确认 GitHub OAuth 配置正确</span>
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+            <p className="text-red-600 text-sm font-medium">登录失败: {error}</p>
+            <p className="text-red-400 text-xs mt-1">请确认 GitHub OAuth 配置正确</p>
+            <p className="text-red-400 text-xs mt-1">可能原因: Client Secret 不正确</p>
           </div>
         )}
 
