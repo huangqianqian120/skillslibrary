@@ -22,11 +22,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://skillslibrary.fun"),
   title: {
-    default: "Skills Library - Discover 50+ AI Agent Skills",
+    default: "AI Agent Skills Library | 50+ Skills for OpenClaw, Claude Code & Codex",
     template: "%s | Skills Library",
   },
-  description: "Browse and discover 50+ Claude Skills for OpenClaw, Codex, and AI agents. Find skills for development, productivity, communication, media, and more.",
-  keywords: ["Claude Skills", "AI Agent", "OpenClaw", "Codex", "Automation", "Productivity", "Developer Tools", "CLI"],
+  description: "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more. Free & open-source.",
+  keywords: ["AI agent skills", "Claude Code skills", "OpenClaw skills", "Codex skills", "AI assistant plugins", "Claude plugins", "agent skills", "automation skills", "developer tools", "CLI skills", "productivity skills"],
   authors: [{ name: "OpenClaw Community" }],
   creator: "OpenClaw",
   publisher: "OpenClaw",
@@ -46,22 +46,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://skillslibrary.fun",
     siteName: "Skills Library",
-    title: "Skills Library - Discover 50+ AI Agent Skills",
-    description: "Browse and discover 50+ Claude Skills for OpenClaw, Codex, and AI agents.",
+    title: "AI Agent Skills Library | 50+ Skills for OpenClaw & Codex",
+    description: "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Skills Library",
+        alt: "Skills Library - AI Agent Skills Collection",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Skills Library",
-    description: "Discover 50+ AI Agent Skills for OpenClaw and Codex",
+    title: "AI Agent Skills Library",
+    description: "Discover 50+ skills for OpenClaw, Claude Code & Codex",
     images: ["/og-image.png"],
+  },
+  other: {
+    "og:see_also": "https://github.com/openclaw/openclaw",
   },
   icons: {
     icon: "/favicon.ico",
@@ -79,7 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* JSON-LD Structured Data */}
+        {/* Enhanced JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -88,7 +91,8 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Skills Library",
               "url": "https://skillslibrary.fun",
-              "description": "A collection of Claude Skills for AI agents",
+              "description": "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
+              "keywords": ["AI agent skills", "Claude Code skills", "OpenClaw skills", "Codex skills"],
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": {
@@ -101,7 +105,35 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "OpenClaw",
                 "url": "https://github.com/openclaw/openclaw"
+              },
+              "license": "https://opensource.org/licenses/MIT",
+              "softwareVersion": "1.0",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "macOS, Linux, Windows",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock"
               }
+            })
+          }}
+        />
+        {/* Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "OpenClaw",
+              "url": "https://github.com/openclaw/openclaw",
+              "logo": "https://skillslibrary.fun/og-image.png",
+              "description": "OpenClaw - AI agent platform for automation and productivity",
+              "sameAs": [
+                "https://github.com/openclaw/openclaw",
+                "https://discord.gg/clawd"
+              ]
             })
           }}
         />

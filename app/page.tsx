@@ -11,7 +11,7 @@ const scenes = [
     name: { en: 'Developer', zh: '开发者' },
     icon: '💻',
     description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
-    skillIds: ['github', 'coding-agent', 'tmux', 'session-logs', 'model-usage', 'oracle', 'skill-creator'],
+    skillIds: ['github', 'coding-agent', 'tmux', 'session-logs', 'model-usage', 'oracle', 'skill-creator', 'skills-library'],
   },
   {
     id: 'writer',
@@ -295,6 +295,29 @@ export default function Home() {
                     )
                   })}
                 </nav>
+
+                {/* Create Skill Button */}
+                {session ? (
+                  <a
+                    href="/create"
+                    className="mt-6 flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    创建技能
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => signIn()}
+                    className="mt-6 flex items-center justify-center gap-2 w-full px-4 py-2.5 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    登录后创建
+                  </button>
+                )}
               </div>
             </aside>
 

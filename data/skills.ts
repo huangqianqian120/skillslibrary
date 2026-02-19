@@ -61,7 +61,8 @@ export const skills: Skill[] = [
   { id: 'weather', name: 'weather', description: '获取当前天气和预报（无需 API 密钥）。', category: 'Lifestyle' },
   { id: 'bmap-jsapi-gl', name: 'bmap-jsapi-gl', description: '百度地图 JSAPI WebGL (BMapGL) 开发指南：地图初始化、覆盖物、事件、图层、路径规划、地理编码等。适用于2D/2.5D地图开发。', category: 'Development' },
   { id: 'bmap-jsapi-three', name: 'bmap-jsapi-three', description: '百度地图 JSAPI Three (MapVThree)：基于 three.js 的二三维一体化地图可视化库，支持 3D 模型加载、地理数据可视化、测量编辑、环境渲染等。', category: 'Development' },
-  { id: 'jsapi-ui-kit', name: 'jsapi-ui-kit', description: '百度地图轻量级 UI 组件库 (@baidumap/jsapi-ui-kit)，提供 PlaceSearch（地点搜索）和 PlaceDetail（POI 详情展示）组件。', category: 'Development' }
+  { id: 'jsapi-ui-kit', name: 'jsapi-ui-kit', description: '百度地图轻量级 UI 组件库 (@baidumap/jsapi-ui-kit)，提供 PlaceSearch（地点搜索）和 PlaceDetail（POI 详情展示）组件。', category: 'Development' },
+  { id: 'skills-library', name: 'skills-library', description: '浏览和管理 OpenClaw 代理技能库。查看所有可用技能、按场景和分类筛选、从 GitHub 同步最新技能。', category: 'Productivity' }
 ]
 
 export const categories = [
