@@ -4,8 +4,8 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
 export default function LoginPage() {
-  const handleGithubLogin = () => {
-    signIn('github', { callbackUrl: '/' })
+  const handleGithubLogin = async () => {
+    await signIn('github', { callbackUrl: '/' })
   }
 
   return (
