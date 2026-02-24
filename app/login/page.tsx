@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import BackButton from '../components/BackButton'
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
@@ -10,8 +11,9 @@ export default function LoginPage() {
     // Get error from URL
     const params = new URLSearchParams(window.location.search)
     const errorParam = params.get('error')
+    const errorCode = params.get('error_description') || params.get('code')
     if (errorParam) {
-      setError(errorParam)
+      setError(errorParam + (errorCode ? `: ${errorCode}` : ''))
     }
   }, [])
 
@@ -55,9 +57,7 @@ export default function LoginPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link href="/" className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
-            返回首页
-          </Link>
+          <BackButton text="返回首页" />
         </div>
       </div>
     </div>

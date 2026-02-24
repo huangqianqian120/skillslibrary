@@ -1,6 +1,10 @@
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 
+console.log("GITHUB_ID:", process.env.GITHUB_ID)
+console.log("GITHUB_SECRET loaded:", !!process.env.GITHUB_SECRET)
+console.log("GITHUB_SECRET prefix:", process.env.GITHUB_SECRET?.slice(0, 10))
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
@@ -15,6 +19,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
     error: "/login",
   },
+  debug: true,
   callbacks: {
     async jwt({ token, user, account }) {
       if (account) {

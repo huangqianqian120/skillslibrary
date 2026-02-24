@@ -2,39 +2,68 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession, signIn } from 'next-auth/react'
+import BackButton from '../components/BackButton'
 
-type Step = 'login' | 'describe' | 'refine' | 'generate' | 'success'
+type Step = 'input' | 'describe' | 'refine' | 'generate' | 'success'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
 }
 
+type InputMode = 'chat' | 'n8n'
+
+const translations = {
+  input: {
+    title: '创建 Skill',
+    subtitle: '描述你的需求，或者导入 n8n 工作流',
+    chat: '描述需求',
+    n8n: '导入 n8n',
+    placeholder: '描述你想要什么功能...',
+    send: '发送',
+    continue: '继续完善',
+    generating: 'AI 正在生成中...',
+  },
+  describe: {
+    title: '描述需求',
+    subtitle: '告诉我你想要什么功能',
+    placeholder: '比如：每天监控竞品价格，降价时发送通知',
+    send: '发送',
+    continue: '继续',
+    generating: 'AI 正在分析...',
+  },
+  refine: {
+    title: '完善需求',
+    subtitle: '还有要补充的吗？',
+    placeholder: '补充更多细节...',
+    send: '添加',
+    continue: '生成 Skill',
+    generating: 'AI 正在完善...',
+  },
+  generate: {
+    generating: 'AI 正在生成 Skill...',
+  },
+  success: {
+    title: '创建成功！',
+    desc: '你的 Skill 已经保存到个人技能库',
+    backBtn: '返回技能库',
+  },
+}
+
 export default function CreateSkill() {
   const router = useRouter()
-  const { data: session, status } = useSession()
 
-  const [step, setStep] = useState<Step>('login')
+  const [inputMode, setInputMode] = useState<InputMode>('chat')
+  const [step, setStep] = useState<Step>('input')
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
   const [currentInput, setCurrentInput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedSkill, setGeneratedSkill] = useState('')
   const [skillName, setSkillName] = useState('')
+  const [n8nJson, setN8nJson] = useState('')
+  const [n8nError, setN8nError] = useState('')
 
-  // Check auth state
-  useEffect(() => {
-    if (status === 'loading') return
-    if (session) {
-      setStep('describe')
-    } else {
-      setStep('login')
-    }
-  }, [session, status])
-
-  const handleLogin = () => {
-    signIn()
-  }
+  const t = translations[step]
 
   const handleSendMessage = async () => {
     if (!currentInput.trim() || isGenerating) return
@@ -79,77 +108,137 @@ export default function CreateSkill() {
 - 触发：${extractTrigger(input)}
 - 目标：${extractTarget(input)}
 
-这些信息已经足够生成技能了，我开始为你生成 SKILL.md...
-
-${isGenerating ? '生成中...' : ''}`
+这些信息够了吗？如有补充请告诉我，否则点击「继续」进入生成阶段。`
   }
 
   const extractAction = (input: string): string => {
-    if (input.includes('监控') || input.includes('检查')) return '监控/检查'
-    if (input.includes('发送') || input.includes('推送到')) return '发送消息'
-    if (input.includes('获取') || input.includes('查询')) return '获取/查询数据'
-    if (input.includes('同步')) return '同步数据'
-    return '执行操作'
+    if (input.includes('监控')) return '监控/检测'
+    if (input.includes('发送')) return '发送消息'
+    if (input.includes('获取')) return '获取数据'
+    if (input.includes('查询')) return '查询信息'
+    return '处理任务'
   }
 
   const extractTrigger = (input: string): string => {
-    if (input.includes('每天') || input.includes('定时')) return '定时执行（每天）'
-    if (input.includes('每小时')) return '定时执行（每小时）'
-    if (input.includes('每周')) return '定时执行（每周）'
-    if (input.includes('变化') || input.includes('降价') || input.includes('更新')) return '事件触发（有变化时）'
+    if (input.includes('每天')) return '定时每天'
+    if (input.includes('定时')) return '定时触发'
+    if (input.includes('自动')) return '自动触发'
+    if (input.includes('变化')) return '有变化时'
     return '手动触发'
   }
 
   const extractTarget = (input: string): string => {
-    if (input.includes('价格')) return '价格数据'
-    if (input.includes('天气')) return '天气信息'
-    if (input.includes('邮件') || input.includes('email')) return '邮件'
-    if (input.includes('微博')) return '微博'
-    if (input.includes('小红书')) return '小红书'
-    if (input.includes('API') || input.includes('接口')) return 'API接口'
-    return '指定数据源'
+    if (input.includes('价格')) return '价格/商品'
+    if (input.includes('天气')) return '天气数据'
+    if (input.includes('邮件')) return '邮件系统'
+    if (input.includes('通知')) return '通知渠道'
+    return '指定目标'
   }
 
-  const handleStartGeneration = () => {
-    const lastUserMessage = chatMessages.filter(m => m.role === 'user').pop()?.content || ''
-    setStep('generate')
-    setIsGenerating(true)
+  const handleN8nImport = async () => {
+    if (!n8nJson.trim()) {
+      setN8nError('请输入 n8n 工作流 JSON')
+      return
+    }
 
-    // Generate skill based on conversation
-    setTimeout(() => {
-      const name = lastUserMessage.split(' ').slice(0, 3).join('-').replace(/[^a-zA-Z0-9-]/g, '').toLowerCase()
-      setSkillName(name)
+    try {
+      const workflow = JSON.parse(n8nJson)
+      setN8nError('')
+      
+      // Extract skill info from n8n workflow
+      const name = workflow.name || 'n8n-imported-skill'
+      const nodes = workflow.nodes || []
+      
+      // Generate skill from n8n workflow
+      const skillContent = generateSkillFromN8n(workflow)
+      setGeneratedSkill(skillContent)
+      setSkillName(name.toLowerCase().replace(/\s+/g, '-'))
+      setStep('generate')
+    } catch (e) {
+      setN8nError('JSON 格式错误，请检查输入')
+    }
+  }
 
-      const skillYaml = `---
+  const generateSkillFromN8n = (workflow: any): string => {
+    const name = workflow.name || 'n8n-skill'
+    const nodes = workflow.nodes || []
+    const connections = workflow.connections || {}
+    
+    // Extract trigger nodes
+    const triggers = nodes.filter((n: any) => 
+      ['Webhook', 'Cron', 'Interval', 'Manual Trigger'].includes(n.type)
+    ).map((n: any) => n.name).join(', ')
+    
+    // Extract action nodes  
+    const actions = nodes.filter((n: any) => 
+      !['Webhook', 'Cron', 'Interval', 'Manual Trigger'].includes(n.type)
+    ).map((n: any) => `${n.name} (${n.type})`).join('\n')
+
+    return `---
 name: ${name}
+description: 从 n8n 工作流 "${name}" 自动转换的 Skill
 version: 1.0.0
-description: ${lastUserMessage}
 ---
 
 # ${name}
 
-## 功能描述
-${lastUserMessage}
+## Description
 
-## 使用场景
-- 定时执行或手动触发
-- 根据具体需求配置
+从 n8n 工作流自动转换的 AI Agent Skill。
 
-## 触发方式
-- 手动触发或定时执行
+## Triggers
 
-## 配置项
-- 根据实际需求配置参数
+${triggers || '手动触发'}
+
+## Actions
+
+${actions || '执行工作流节点'}
+
+## Usage
+
+这个 Skill 执行 n8n 工作流中的操作。
+
+## N8n Workflow Info
+
+- **Name**: ${name}
+- **Nodes**: ${nodes.length}
+- **Active**: ${workflow.active !== false}
+
+## Configuration
+
+需要配置 n8n webhook URL 或认证信息。
 `
+  }
 
-      setGeneratedSkill(skillYaml)
+  const handleGenerate = () => {
+    setIsGenerating(true)
+    
+    // Generate skill from chat
+    setTimeout(() => {
+      const skill = `# ${skillName || 'my-skill'}
+
+## Description
+
+${chatMessages.map(m => m.content).join('\n\n')}
+
+## Capabilities
+
+- 功能1
+- 功能2
+
+## Usage
+
+直接告诉 AI 你想做什么，AI 会帮你完成。
+
+`
+      setGeneratedSkill(skill)
+      setStep('generate')
       setIsGenerating(false)
     }, 2000)
   }
 
   const handleSaveSkill = () => {
-    // Save to user's personal skills (not public)
-    alert(`技能 "${skillName}" 已保存到您的个人技能列表！\n\n此技能仅在您的主页中展示，不会公开发布。`)
+    // In real app, save to backend
     setStep('success')
   }
 
@@ -157,134 +246,118 @@ ${lastUserMessage}
     router.push('/')
   }
 
-  // Translations
-  const t = {
-    title: '创建技能',
-    subtitle: '描述您的需求，AI 将自动生成技能',
-    loginTitle: '登录后创建',
-    loginDesc: '登录您的账户即可创建个人技能',
-    loginBtn: '登录',
-    chatPlaceholder: '描述您想要实现的自动化功能...',
-    send: '发送',
-    generating: '正在生成技能...',
-    save: '保存到我的技能',
-    successTitle: '创建成功！',
-    successDesc: '技能已保存到您的主页',
-    backBtn: '返回技能库',
-  }
-
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-6 py-6">
-          <div className="flex items-center gap-4">
-            <button onClick={handleBackToLibrary} className="text-gray-400 hover:text-gray-600">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <div>
-              <h1 className="text-xl font-medium text-gray-900">{t.title}</h1>
-              <p className="text-sm text-gray-400">{t.subtitle}</p>
-            </div>
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-medium text-gray-900">{t.title}</h1>
+            <BackButton onClick={() => router.push('/')} />
           </div>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-8">
-        {/* Login Step */}
-        {step === 'login' && (
-          <div className="max-w-md mx-auto text-center py-16">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M20 21a8 8 0 10-16 0" />
-              </svg>
+        {/* Input Mode Selection */}
+        {step === 'input' && (
+          <div>
+            <p className="text-gray-500 mb-6">{t.subtitle}</p>
+            
+            {/* Mode Tabs */}
+            <div className="flex gap-2 mb-6">
+              <button
+                onClick={() => setInputMode('chat')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  inputMode === 'chat' 
+                    ? 'bg-gray-900 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                💬 {t.chat}
+              </button>
+              <button
+                onClick={() => setInputMode('n8n')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  inputMode === 'n8n' 
+                    ? 'bg-gray-900 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                🔄 {t.n8n}
+              </button>
             </div>
-            <h2 className="text-xl font-medium text-gray-900 mb-2">{t.loginTitle}</h2>
-            <p className="text-gray-400 mb-8">{t.loginDesc}</p>
-            <button
-              onClick={handleLogin}
-              className="px-8 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors"
-            >
-              {t.loginBtn}
-            </button>
-          </div>
-        )}
 
-        {/* Chat Step */}
-        {(step === 'describe' || step === 'refine') && (
-          <div className="max-w-2xl mx-auto">
-            {/* Chat Messages */}
-            <div className="space-y-4 mb-6">
-              {chatMessages.length === 0 && (
-                <div className="text-center py-12">
-                  <p className="text-gray-400 mb-2">👋 你好！</p>
-                  <p className="text-sm text-gray-400">描述你想实现的自动化功能，我会帮你生成技能</p>
-                </div>
-              )}
-              {chatMessages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-4 rounded-2xl ${
-                    msg.role === 'user'
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-gray-50 text-gray-700'
-                  }`}>
-                    {msg.content}
-                  </div>
-                </div>
-              ))}
-              {isGenerating && (
-                <div className="flex justify-start">
-                  <div className="bg-gray-50 p-4 rounded-2xl">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            {/* Chat Mode */}
+            {inputMode === 'chat' && (
+              <div className="space-y-4">
+                {/* Chat Messages */}
+                {chatMessages.map((msg, i) => (
+                  <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                      msg.role === 'user' 
+                        ? 'bg-gray-900 text-white' 
+                        : 'bg-gray-100 text-gray-900'
+                    }`}>
+                      {msg.content}
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
+                ))}
 
-            {/* Chat Input */}
-            {chatMessages.length > 0 && chatMessages[chatMessages.length - 1].role === 'assistant' && !isGenerating && (
-              <div className="flex gap-3">
-                <button
-                  onClick={handleStartGeneration}
-                  className="flex-1 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-colors"
-                >
-                  开始生成技能
-                </button>
-                <button
-                  onClick={() => {
-                    setChatMessages(prev => [...prev, { role: 'assistant', content: '好的，请告诉我更多细节...' }])
-                  }}
-                  className="px-6 py-3 border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50"
-                >
-                  补充信息
-                </button>
+                {/* Input */}
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={currentInput}
+                    onChange={(e) => setCurrentInput(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                    placeholder={t.placeholder}
+                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm"
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!currentInput.trim() || isGenerating}
+                    className="px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 disabled:opacity-50"
+                  >
+                    {t.send}
+                  </button>
+                </div>
+
+                {chatMessages.length > 0 && (
+                  <button
+                    onClick={handleGenerate}
+                    className="w-full py-3 bg-green-600 text-white rounded-xl hover:bg-green-700"
+                  >
+                    {t.continue}
+                  </button>
+                )}
               </div>
             )}
 
-            {!(chatMessages.length > 0 && chatMessages[chatMessages.length - 1].role === 'assistant' && !isGenerating) && (
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  value={currentInput}
-                  onChange={(e) => setCurrentInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder={t.chatPlaceholder}
-                  disabled={isGenerating}
-                  className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent disabled:opacity-50"
+            {/* N8n Mode */}
+            {inputMode === 'n8n' && (
+              <div className="space-y-4">
+                <div className="p-4 bg-blue-50 rounded-xl text-sm text-blue-700">
+                  <p className="font-medium mb-1">💡 提示</p>
+                  <p>粘贴你的 n8n 工作流 JSON，AI 会自动将其转换为 Skill。</p>
+                </div>
+                
+                <textarea
+                  value={n8nJson}
+                  onChange={(e) => setN8nJson(e.target.value)}
+                  placeholder='{"name": "My Workflow", "nodes": [...], ...}'
+                  className="w-full h-64 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-mono"
                 />
+                
+                {n8nError && (
+                  <p className="text-red-500 text-sm">{n8nError}</p>
+                )}
+                
                 <button
-                  onClick={handleSendMessage}
-                  disabled={!currentInput.trim() || isGenerating}
-                  className="px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleN8nImport}
+                  className="w-full py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800"
                 >
-                  {t.send}
+                  导入并转换
                 </button>
               </div>
             )}
@@ -327,9 +400,9 @@ ${lastUserMessage}
 
                   <button
                     onClick={handleSaveSkill}
-                    className="w-full py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-colors"
+                    className="w-full py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800"
                   >
-                    {t.save}
+                    保存 Skill
                   </button>
                 </>
               )}
@@ -345,13 +418,13 @@ ${lastUserMessage}
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-2xl font-medium text-gray-900 mb-2">{t.successTitle}</h2>
-            <p className="text-gray-400 mb-8">{t.successDesc}</p>
+            <h2 className="text-2xl font-medium text-gray-900 mb-2">创建成功！</h2>
+            <p className="text-gray-400 mb-8">你的 Skill 已经保存</p>
             <button
               onClick={handleBackToLibrary}
-              className="px-8 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-colors"
+              className="px-8 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800"
             >
-              {t.backBtn}
+              返回技能库
             </button>
           </div>
         )}

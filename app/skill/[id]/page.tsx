@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { createContext, useState } from 'react'
 import { SEOHead } from '@/app/components/SEO'
+import BackButton from '@/app/components/BackButton'
 
 // Translations
 const translations = {
@@ -13,7 +14,7 @@ const translations = {
     copyDescription: 'Copy Description',
     copySkillId: 'Copy Skill ID',
     viewOnGitHub: 'View on GitHub',
-    downloadSkill: 'Download SKILL.md',
+    downloadSkill: 'Copy Link',
     skillsInCategory: 'skills in this category',
     views: 'views',
     rating: 'rating',
@@ -27,7 +28,7 @@ const translations = {
     copyDescription: '复制描述',
     copySkillId: '复制技能 ID',
     viewOnGitHub: '在 GitHub 查看',
-    downloadSkill: '下载 SKILL.md',
+    downloadSkill: '复制链接',
     skillsInCategory: '个同类技能',
     views: '次浏览',
     rating: '评分',
@@ -86,15 +87,7 @@ export default function SkillPage() {
         <header className="border-b border-gray-100 sticky top-0 z-10 bg-white/90 backdrop-blur-sm">
           <div className="max-w-5xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <Link
-                href="/"
-                className="flex items-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                {t('backToLibrary', lang)}
-              </Link>
+              <BackButton text={t('backToLibrary', lang)} />
 
               {/* Language Switch */}
               <div className="flex items-center bg-gray-50 rounded-lg p-1">
@@ -173,17 +166,15 @@ export default function SkillPage() {
               </svg>
               {t('viewOnGitHub', lang)}
             </a>
-            <a
-              href={`https://raw.githubusercontent.com/openclaw/openclaw/main/skills/${skill.id}/SKILL.md`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => navigator.clipboard.writeText(`https://raw.githubusercontent.com/openclaw/openclaw/main/skills/${skill.id}/SKILL.md`)}
               className="inline-flex items-center px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
               {t('downloadSkill', lang)}
-            </a>
+            </button>
             <button
               onClick={() => navigator.clipboard.writeText(skill.description)}
               className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"

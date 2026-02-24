@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useMemo, createContext } from 'react'
+import Link from 'next/link'
 import { skills, categories } from '@/data/skills'
-import { signIn, signOut, useSession } from 'next-auth/react'
 
 // Scenes/Roles configuration
 const scenes = [
@@ -91,7 +91,6 @@ function t(key: keyof typeof translations.en, lang: Language, params?: Record<st
 }
 
 export default function Home() {
-  const { data: session } = useSession()
   const [lang, setLang] = useState<Language>('en')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -139,6 +138,15 @@ export default function Home() {
 
               {/* Language Switch & Auth */}
               <div className="flex items-center gap-4">
+                <Link 
+                  href="/docs" 
+                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Doc
+                </Link>
                 <div className="flex items-center bg-gray-50 rounded-lg p-1">
                   <button
                     onClick={() => setLang('en')}
@@ -157,33 +165,6 @@ export default function Home() {
                     中文
                   </button>
                 </div>
-
-                {/* Login/Logout Button */}
-                {session ? (
-                  <div className="flex items-center gap-3">
-                    {session.user?.image && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img 
-                        src={session.user.image} 
-                        alt={session.user.name || ''}
-                        className="w-8 h-8 rounded-full"
-                      />
-                    )}
-                    <button
-                      onClick={() => signOut()}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    >
-                      登出
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => signIn()}
-                    className="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
-                  >
-                    登录
-                  </button>
-                )}
               </div>
             </div>
           </div>
@@ -297,27 +278,15 @@ export default function Home() {
                 </nav>
 
                 {/* Create Skill Button */}
-                {session ? (
-                  <a
-                    href="/create"
-                    className="mt-6 flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    创建 Skill
-                  </a>
-                ) : (
-                  <button
-                    onClick={() => signIn()}
-                    className="mt-6 flex items-center justify-center gap-2 w-full px-4 py-2.5 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    创建 Skill
-                  </button>
-                )}
+                <a
+                  href="/create"
+                  className="mt-6 flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  创建 Skill
+                </a>
               </div>
             </aside>
 
