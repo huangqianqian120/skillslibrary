@@ -47,16 +47,7 @@ export default function DocsPage() {
       {/* Header */}
       <header className="border-b border-gray-100 sticky top-0 z-10 bg-white/90 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <BackButton text="Skills Library" />
-            <nav className="flex items-center gap-4 text-sm">
-              {sections.map(s => (
-                <a key={s.id} href={`#${s.id}`} className="text-gray-500 hover:text-gray-900 transition-colors">
-                  {s.label}
-                </a>
-              ))}
-            </nav>
-          </div>
+          <BackButton text="Skills Library" />
         </div>
       </header>
 
