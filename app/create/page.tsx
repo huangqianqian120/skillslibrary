@@ -42,6 +42,7 @@ const translations = {
   },
   generate: {
     title: '生成结果',
+    subtitle: '',
     generating: 'AI 正在生成 Skill...',
   },
   success: {
