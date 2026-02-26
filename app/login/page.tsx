@@ -37,9 +37,9 @@ export default function LoginPage() {
         )}
 
         {/* Login Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-medium text-gray-900">登录</h2>
+            <h2 className="text-lg sm:text-xl font-medium text-gray-900">登录</h2>
             <p className="text-sm text-gray-400 mt-1">登录您的账户</p>
           </div>
 

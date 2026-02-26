@@ -41,20 +41,51 @@ const sections = [
 
 export default function DocsPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-white font-sans">
       {/* Header */}
       <header className="border-b border-gray-100 sticky top-0 z-10 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <BackButton text="Skills Library" />
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center justify-between">
+            <BackButton text="Skills Library" />
+            
+            {/* Mobile Menu Button */}
+            <button 
+              className="lg:hidden p-2 text-gray-600 hover:text-gray-900"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden border-b border-gray-100 bg-white">
+          <nav className="px-4 py-3 space-y-1">
+            {sections.map(s => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {s.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+          {/* Sidebar - Desktop only */}
+          <aside className="hidden lg:block lg:col-span-1">
             <div className="sticky top-24">
               <nav className="space-y-1">
                 {sections.map(s => (
@@ -71,25 +102,25 @@ export default function DocsPage() {
           </aside>
 
           {/* Content */}
-          <main className="lg:col-span-3 space-y-16">
+          <main className="lg:col-span-3 space-y-12 sm:space-y-16">
             {/* What is Skill */}
             <section id="what-is-skill">
-              <h1 className="text-3xl font-bold text-gray-900 mb-6">什么是 Skill？</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">什么是 Skill？</h1>
               
               <div className="prose prose-gray max-w-none">
-                <p className="text-lg text-gray-600 mb-6">
+                <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
                   <strong>Skill（技能）</strong>是 AI Agent 的能力扩展模块，让 AI 能够执行特定的任务，比如发送消息、操作文件、调用 API 等。
                 </p>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 mb-8">
+                <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
                   <h3 className="font-semibold text-blue-900 mb-2">🤖 简单理解</h3>
                   <p className="text-blue-800 text-sm">
                     就像手机 App 让手机有各种功能一样，<strong>Skill 让 AI 有各种能力</strong>。没有 Skill，AI 只能聊天；有 Skill，AI 可以帮你做事。
                   </p>
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Skill 能做什么？</h3>
-                <ul className="space-y-2 text-gray-600 mb-6">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Skill 能做什么？</h3>
+                <ul className="space-y-2 text-gray-600 mb-4 sm:mb-6">
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">✓</span>
                     <span><strong>通讯</strong> - 发送消息到 Discord、Slack、WhatsApp</span>
