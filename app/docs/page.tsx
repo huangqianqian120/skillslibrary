@@ -23,7 +23,15 @@ const faqs = [
   },
   {
     question: "支持哪些分类？",
-    answer: "Communication (通讯)、Development (开发)、Lifestyle (生活)、Media (媒体)、Productivity (效率) 五大分类。"
+    answer: "Communication (通讯)、Development (开发)、Lifestyle (生活)、Media (媒体)、Productivity (效率)五大分类。"
+  },
+  {
+    question: "Skill 和 MCP 是什么关系？",
+    answer: "MCP (Model Context Protocol) 是一个开放标准，让 AI Agent 可以连接到外部工具。OpenClaw 的 Skill 系统类似 MCP，都是为了让 AI 能够执行具体任务。Skills Library 中的 Skill 可以看作是 MCP server 的简化版本。"
+  },
+  {
+    question: "这些 Skill 可以用于 Claude Code 或 Cursor 吗？",
+    answer: "Skills Library 的 Skill 是为 OpenClaw 设计的。Claude Code 使用 MCP 标准，需要 MCP server。你可以把这个技能库看作是灵感来源，很多 Skill 的功能在 MCP 生态中也有对应的实现。"
   }
 ]
 
@@ -173,50 +181,89 @@ export default function DocsPage() {
             <section id="how-it-works">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Skill 是怎么工作的？</h2>
               
+              <p className="text-gray-600 mb-6">
+                AI Agent 的 Skill（技能）系统基于类似的原理工作。让我参考 Claude 官方的 <strong>Model Context Protocol (MCP)</strong> 来解释：
+              </p>
+
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">1</div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-1">定义 Skill</h4>
-                    <p className="text-gray-600 text-sm">开发者编写 SKILL.md 文件，描述技能名称、功能、使用方式</p>
+                    <h4 className="font-medium text-gray-900 mb-1">定义 Skill（技能/工具）</h4>
+                    <p className="text-gray-600 text-sm">开发者编写 Skill 定义文件（SKILL.md 或 MCP server），描述技能名称、功能、参数和使用方式。类似于手机 App 的应用商店描述。</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">2</div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-1">注册到系统</h4>
-                    <p className="text-gray-600 text-sm">OpenClaw 加载 Skill，将其注册到技能库</p>
+                    <h4 className="font-medium text-gray-900 mb-1">注册到 Agent 系统</h4>
+                    <p className="text-gray-600 text-sm">AI Agent 启动时加载 Skill，将其注册到系统中。Agent 就知道有哪些工具可用。每个 Skill 会有一个唯一标识符和描述。</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">3</div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-1">触发执行</h4>
-                    <p className="text-gray-600 text-sm">用户发起请求 → AI 判断用哪个 Skill → 调用对应工具</p>
+                    <h4 className="font-medium text-gray-900 mb-1">AI 智能选择</h4>
+                    <p className="text-gray-600 text-sm">当用户提出请求时，AI 会自动判断是否需要调用 Skill。AI 知道每个 Skill 的能力，会选择合适的工具来完成任务。</p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
                   <div className="w-10 h-10 bg-gray-900 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">4</div>
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-1">返回结果</h4>
-                    <p className="text-gray-600 text-sm">Skill 执行完成后，结果返回给 AI，再展示给用户</p>
+                    <h4 className="font-medium text-gray-900 mb-1">执行并返回结果</h4>
+                    <p className="text-gray-600 text-sm">Skill 执行完成后，结果返回给 AI。AI 会理解结果，组织成人类可读的回答。</p>
                   </div>
                 </div>
+              </div>
+
+              {/* MCP 介绍 */}
+              <div className="mt-8 p-4 sm:p-6 bg-blue-50 border border-blue-100 rounded-xl">
+                <h4 className="font-semibold text-blue-900 mb-3">🤖 什么是 MCP？</h4>
+                <p className="text-blue-800 text-sm mb-4">
+                  <strong>Model Context Protocol (MCP)</strong> 是一个开放标准，由 Anthropic（Claude 背后公司）提出。它让 AI Agent 可以连接到外部工具和数据源。
+                </p>
+                <p className="text-blue-800 text-sm mb-4">
+                  不同的 AI Agent（Claude Code、OpenClaw、Cursor 等）可能使用不同的技能系统，但核心思想类似：
+                </p>
+                <ul className="text-blue-800 text-sm space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-0.5">•</span>
+                    <span><strong>Skill</strong> = MCP Server = 工具/插件</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-0.5">•</span>
+                    <span><strong>技能库</strong> = MCP Registry = 工具商店</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-blue-600 mt-0.5">•</span>
+                    <span><strong>调用 Skill</strong> = AI 使用 Tool = Agent 执行动作</span>
+                  </li>
+                </ul>
               </div>
 
               <div className="mt-8 p-4 bg-gray-50 rounded-xl">
                 <h4 className="font-medium text-gray-900 mb-2">📌 举个例子</h4>
                 <p className="text-gray-600 text-sm">
-                  你说 "帮我查一下上海天气"，AI 会：
+                  你说 "帮我查一下上海天气，并发给 Slack 频道"，AI 会：
                 </p>
                 <ol className="mt-2 text-sm text-gray-600 space-y-1">
-                  <li>1. 识别需要 weather skill</li>
-                  <li>2. 调用天气 API 查询上海</li>
-                  <li>3. 获取结果后回答你</li>
+                  <li>1. 识别需要 <strong>weather</strong> skill 查询天气</li>
+                  <li>2. 调用天气 API 获取上海天气数据</li>
+                  <li>3. 识别需要 <strong>slack</strong> skill 发送消息</li>
+                  <li>4. 调用 Slack API 发送消息</li>
+                  <li>5. 完成后告诉你结果</li>
                 </ol>
+              </div>
+
+              <div className="mt-6 text-sm text-gray-500">
+                <p>💡 <strong>延伸阅读</strong>：</p>
+                <ul className="mt-2 space-y-1">
+                  <li>• <a href="https://modelcontextprotocol.io/introduction" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">MCP 官方文档 →</a></li>
+                  <li>• <a href="https://docs.anthropic.com/en/docs/claude-code/mcp" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Claude Code MCP 配置 →</a></li>
+                </ul>
               </div>
             </section>
 
