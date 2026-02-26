@@ -101,32 +101,47 @@ export default function CreateSkill() {
 
   const analyzeUserNeed = (input: string): string => {
     const lowerInput = input.toLowerCase()
+    const inputLength = input.trim().length
 
-    // Check if information is sufficient
-    const hasTrigger = lowerInput.includes('每天') || lowerInput.includes('定时') || lowerInput.includes('自动') || lowerInput.includes('监控') || lowerInput.includes('触发')
-    const hasAction = lowerInput.includes('发送') || lowerInput.includes('获取') || lowerInput.includes('查询') || lowerInput.includes('监控') || lowerInput.includes('检查')
-    const hasTarget = lowerInput.includes('价格') || lowerInput.includes('微博') || lowerInput.includes('小红书') || lowerInput.includes('天气') || lowerInput.includes('邮件') || lowerInput.includes('通知')
-
-    if (!hasTrigger && !hasAction && !hasTarget) {
-      return `好的，我记录下来了。
-
-为了更好地帮你创建技能，我还需要了解一些信息：
-
-1. **这个技能要做什么？** 比如：监控价格、发送消息、获取数据等
-2. **什么时候触发？** 比如：定时每天早上、手动触发、有变化时通知
-3. **需要操作哪些平台或数据？** 比如：某个网站、某个API、本地文件等
-
-请告诉我更多细节，这样我可以帮你生成更合适的技能。`
+    // 如果用户只是简单的确认或好的
+    if (['好', '好的', 'ok', 'okay', '可以', '可以了', '没问题', '对的', '是', 'yes'].some(k => lowerInput === k)) {
+      return `好的，让我们开始生成 Skill！`
     }
 
-    return `好的，我已经了解了你的需求！
+    // 如果用户回答了补充问题
+    if (step === 'refine') {
+      return `明白了！我已经记下了这个补充信息。
 
-**需求总结：**
-- 功能：${extractAction(input)}
-- 触发：${extractTrigger(input)}
-- 目标：${extractTarget(input)}
+现在你有以下需求：
+${chatMessages.map(m => `• ${m.content}`).join('\n')}
 
-这些信息够了吗？如有补充请告诉我，否则点击「继续」进入生成阶段。`
+点击「生成 Skill」按钮开始创建，或者继续补充更多细节。`
+    }
+
+    // 分析用户需求
+    const hasTrigger = lowerInput.includes('每天') || lowerInput.includes('定时') || lowerInput.includes('自动') || lowerInput.includes('监控') || lowerInput.includes('触发') || lowerInput.includes('每') || lowerInput.includes('时')
+    const hasAction = lowerInput.includes('发送') || lowerInput.includes('获取') || lowerInput.includes('查询') || lowerInput.includes('监控') || lowerInput.includes('检查') || lowerInput.includes('抓取') || lowerInput.includes('读取') || lowerInput.includes('写入')
+    const hasTarget = lowerInput.includes('价格') || lowerInput.includes('微博') || lowerInput.includes('小红书') || lowerInput.includes('天气') || lowerInput.includes('邮件') || lowerInput.includes('通知') || lowerInput.includes('网站') || lowerInput.includes('文件') || lowerInput.includes('数据库')
+
+    // 信息充分的情况
+    if ((hasTrigger && hasAction) || (hasAction && hasTarget) || inputLength > 30) {
+      return `明白了！我理解你想要：
+
+**功能**：${extractAction(input)}
+**触发**：${extractTrigger(input)}  
+**目标**：${extractTarget(input)}
+
+这些信息够用了，点击「继续完善」补充更多细节，或者直接点击「生成 Skill」创建技能。`
+    }
+
+    // 信息不够充分，给出友好提示
+    return `收到！我会帮你创建一个满足这个需求的 Skill： "${input}"
+
+不过为了更好地生成，我还想了解：
+1. **什么时候执行？** 定时每天？手动触发？还是监测到变化时？
+2. **需要操作什么？** 发送消息？读取数据？调用API？
+
+直接说「继续」也可以基于现有信息生成，或者补充更多细节~`
   }
 
   const extractAction = (input: string): string => {
@@ -344,7 +359,7 @@ ${chatMessages.map(m => m.content).join('\n\n')}
                 {chatMessages.length > 0 && (
                   <button
                     onClick={handleGenerate}
-                    className="w-full py-3 bg-green-600 text-white rounded-xl hover:bg-green-700"
+                    className="w-full py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800"
                   >
                     {t.continue}
                   </button>
