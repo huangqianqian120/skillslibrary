@@ -99,73 +99,154 @@ export default function CreateSkill() {
     }, 1500)
   }
 
+  // 资深咨询专家 + Agent 工程师的角色设定
+  const SYSTEM_PROMPT = `你是一位资深的 AI Agent 咨询专家，同时也是经验丰富的 Agent 工程师。你的目标是帮助用户清晰地定义他们想要的 AI Skill。
+
+你的风格：
+- 像一位专业的技术顾问，循循善诱
+- 不仅听用户说什么，还要帮用户想到他可能没考虑的
+- 用简洁专业的语言，但不失亲和力
+- 当信息足够时，给出结构化的总结
+- 当信息不够时，通过提问引导用户完善需求
+
+你需要了解一个 Skill 的核心要素：
+1. **触发时机** - 用户怎么启动这个技能？（定时、手动、事件触发）
+2. **执行动作** - 技能具体做什么？（发送、查询、监控、生成等）
+3. **操作对象** - 作用于什么目标？（API、文件、数据库、平台账号）
+4. **输出形式** - 结果怎么呈现？（消息、文件、API返回）
+5. **边界处理** - 异常情况怎么办？（超时、失败、无数据）
+
+对话原则：
+- 不要说"好的我记录下来了"，太机械
+- 根据用户的输入，判断需求完整性
+- 如果用户说的模糊，主动给出选项让用户选择
+- 适时给出专业建议，比如"其实你可以考虑..."`
+
   const analyzeUserNeed = (input: string): string => {
     const lowerInput = input.toLowerCase()
     const inputLength = input.trim().length
+    const allMessages = chatMessages.map(m => m.content).join(' ')
+    const allContext = allMessages + ' ' + input
 
-    // 如果用户只是简单的确认或好的
-    if (['好', '好的', 'ok', 'okay', '可以', '可以了', '没问题', '对的', '是', 'yes'].some(k => lowerInput === k)) {
-      return `好的，让我们开始生成 Skill！`
+    // 检测用户确认
+    if (['好', '好的', 'ok', 'okay', '可以', '可以了', '没问题', '对的', '是', 'yes', '继续', '生成'].some(k => lowerInput === k || lowerInput.startsWith(k))) {
+      return `好的，需求已经收集得差不多了。
+
+**当前需求概要：**
+${chatMessages.map((m, i) => `${i + 1}. ${m.content.split('\n')[0]}`).join('\n')}
+
+可以点击「生成 Skill」开始创建了！如果还想补充什么，直接告诉我~`
     }
 
-    // 如果用户回答了补充问题
+    // 如果是补充阶段
     if (step === 'refine') {
-      return `明白了！我已经记下了这个补充信息。
+      return `明白了，补充收到。
 
-现在你有以下需求：
-${chatMessages.map(m => `• ${m.content}`).join('\n')}
+**整理后的完整需求：**
+${chatMessages.map((m, i) => `• ${m.content.split('\n')[0]}`).join('\n')}
+• ${input.split('\n')[0]}
 
-点击「生成 Skill」按钮开始创建，或者继续补充更多细节。`
+${inputLength > 50 ? '信息挺充分的了，可以生成。或者还有别的要补充？' : '还想了解更多细节吗？比如：成功的标准是什么？失败了呢？'}`
     }
 
-    // 分析用户需求
-    const hasTrigger = lowerInput.includes('每天') || lowerInput.includes('定时') || lowerInput.includes('自动') || lowerInput.includes('监控') || lowerInput.includes('触发') || lowerInput.includes('每') || lowerInput.includes('时')
-    const hasAction = lowerInput.includes('发送') || lowerInput.includes('获取') || lowerInput.includes('查询') || lowerInput.includes('监控') || lowerInput.includes('检查') || lowerInput.includes('抓取') || lowerInput.includes('读取') || lowerInput.includes('写入')
-    const hasTarget = lowerInput.includes('价格') || lowerInput.includes('微博') || lowerInput.includes('小红书') || lowerInput.includes('天气') || lowerInput.includes('邮件') || lowerInput.includes('通知') || lowerInput.includes('网站') || lowerInput.includes('文件') || lowerInput.includes('数据库')
+    // 深度分析用户需求
+    const triggerWords = ['每', '定时', '自动', '触发', '监测', '监听', '当', '时候', 'cron', 'schedule']
+    const actionWords = ['发送', '获取', '查询', '监控', '检查', '抓取', '读取', '写入', '生成', '创建', '删除', '更新', '同步', '推送']
+    const targetWords = ['天气', '价格', '邮件', '消息', '微博', '小红书', '文件', '数据库', '网站', 'api', 'webhook', '通知', '文档', '数据']
+    const outputWords = ['发送', '返回', '展示', '保存', '记录', '通知', '显示', '回复']
 
-    // 信息充分的情况
-    if ((hasTrigger && hasAction) || (hasAction && hasTarget) || inputLength > 30) {
-      return `明白了！我理解你想要：
+    const hasTrigger = triggerWords.some(w => lowerInput.includes(w))
+    const hasAction = actionWords.some(w => lowerInput.includes(w))
+    const hasTarget = targetWords.some(w => lowerInput.includes(w))
+    const hasOutput = outputWords.some(w => lowerInput.includes(w))
 
-**功能**：${extractAction(input)}
-**触发**：${extractTrigger(input)}  
-**目标**：${extractTarget(input)}
+    const score = [hasTrigger, hasAction, hasTarget, hasOutput].filter(Boolean).length
 
-这些信息够用了，点击「继续完善」补充更多细节，或者直接点击「生成 Skill」创建技能。`
+    // 需求分析结果
+    let analysis = `**需求理解：**\n`
+    if (hasAction) analysis += `• 动作：${extractAction(input)}\n`
+    if (hasTrigger) analysis += `• 触发：${extractTrigger(input)}\n`
+    if (hasTarget) analysis += `• 目标：${extractTarget(input)}\n`
+    if (hasOutput) analysis += `• 输出：${extractOutput(input)}\n`
+
+    // 需求不完整，给出引导
+    if (score < 2 || inputLength < 20) {
+      const suggestions = []
+      if (!hasTrigger) suggestions.push('什么时候执行？定时/手动/事件触发？')
+      if (!hasAction) suggestions.push('具体要做什么操作？')
+      if (!hasTarget) suggestions.push('操作什么目标？API/文件/平台？')
+
+      return `收到，让我帮你梳理一下。
+
+"${input}"
+
+这个需求很有意思！我理解你想做的是 ${hasAction ? extractAction(input) : '某个自动化任务'}。
+
+不过我还需要确认几个关键点：
+${suggestions.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+
+想清楚了告诉我，或者直接说「继续」我先用现有信息帮你生成~`
     }
 
-    // 信息不够充分，给出友好提示
-    return `收到！我会帮你创建一个满足这个需求的 Skill： "${input}"
+    // 需求基本完整，给出结构化总结 + 引导补充
+    let extraQuestions = []
+    if (!hasOutput) extraQuestions.push('结果怎么展示？发消息/存文件/直接回复？')
+    if (inputLength < 50) extraQuestions.push('还有其他要补充的吗？')
 
-不过为了更好地生成，我还想了解：
-1. **什么时候执行？** 定时每天？手动触发？还是监测到变化时？
-2. **需要操作什么？** 发送消息？读取数据？调用API？
+    return `${analysis}
+✅ 核心需求已经清晰了！
 
-直接说「继续」也可以基于现有信息生成，或者补充更多细节~`
+${extraQuestions.length > 0 ? extraQuestions.map((q, i) => `💡 ${q}`).join('\n') : '点击「继续完善」补充更多细节，或者直接生成~'}
+`
   }
 
   const extractAction = (input: string): string => {
-    if (input.includes('监控')) return '监控/检测'
-    if (input.includes('发送')) return '发送消息'
-    if (input.includes('获取')) return '获取数据'
-    if (input.includes('查询')) return '查询信息'
-    return '处理任务'
+    const lower = input.toLowerCase()
+    if (lower.includes('监控') || lower.includes('监测')) return '监控/检测变化'
+    if (lower.includes('发送') || lower.includes('推送')) return '发送消息/通知'
+    if (lower.includes('获取') || lower.includes('抓取') || lower.includes('爬取')) return '获取/抓取数据'
+    if (lower.includes('查询') || lower.includes('搜索')) return '查询/搜索信息'
+    if (lower.includes('生成') || lower.includes('创建')) return '生成内容'
+    if (lower.includes('同步')) return '同步数据'
+    if (lower.includes('读取') || lower.includes('读取')) return '读取文件/数据'
+    if (lower.includes('写入') || lower.includes('保存')) return '写入/保存数据'
+    return '执行操作'
   }
 
   const extractTrigger = (input: string): string => {
-    if (input.includes('每天')) return '定时每天'
-    if (input.includes('定时')) return '定时触发'
-    if (input.includes('自动')) return '自动触发'
-    if (input.includes('变化')) return '有变化时'
-    return '手动触发'
+    const lower = input.toLowerCase()
+    if (lower.includes('每天')) return '定时（每天）'
+    if (lower.includes('每周')) return '定时（每周）'
+    if (lower.includes('每小时')) return '定时（每小时）'
+    if (lower.includes('定时') || lower.includes('cron')) return '定时触发'
+    if (lower.includes('自动') || lower.includes('监测')) return '事件触发'
+    if (lower.includes('手动')) return '手动触发'
+    if (lower.includes('当') || lower.includes('时候')) return '条件触发'
+    return '待确认'
   }
 
   const extractTarget = (input: string): string => {
-    if (input.includes('价格')) return '价格/商品'
-    if (input.includes('天气')) return '天气数据'
-    if (input.includes('邮件')) return '邮件系统'
-    if (input.includes('通知')) return '通知渠道'
-    return '指定目标'
+    const lower = input.toLowerCase()
+    if (lower.includes('天气')) return '天气数据'
+    if (lower.includes('价格') || lower.includes('商品')) return '价格/商品信息'
+    if (lower.includes('邮件') || lower.includes('email')) return '邮件系统'
+    if (lower.includes('微博') || lower.includes('x.com')) return '微博/X'
+    if (lower.includes('小红书')) return '小红书'
+    if (lower.includes('slack')) return 'Slack'
+    if (lower.includes('discord')) return 'Discord'
+    if (lower.includes('文件') || lower.includes('本地')) return '本地文件'
+    if (lower.includes('数据库') || lower.includes('db')) return '数据库'
+    if (lower.includes('api') || lower.includes('http')) return '外部API'
+    return '待确认'
+  }
+
+  const extractOutput = (input: string): string => {
+    const lower = input.toLowerCase()
+    if (lower.includes('发消息') || lower.includes('通知')) return '发送消息通知'
+    if (lower.includes('保存') || lower.includes('写入')) return '保存到文件/数据库'
+    if (lower.includes('返回') || lower.includes('展示')) return '直接返回结果'
+    if (lower.includes('邮件')) return '发送邮件'
+    return '待确认'
   }
 
   const handleN8nImport = async () => {
