@@ -458,8 +458,4 @@ function SkillCard({ skill }: { skill: typeof skills[0] }) {
       </div>
     </a>
   )
-}        </svg>
-      </div>
-    </a>
-  )
 }
