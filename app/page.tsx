@@ -49,6 +49,13 @@ const scenes = [
     description: { en: 'Track updates and feeds', zh: '追踪更新和动态' },
     skillIds: ['blogwatcher', 'weather', 'goplaces'],
   },
+  {
+    id: 'business',
+    name: { en: 'Business', zh: '商业运营' },
+    icon: '💼',
+    description: { en: 'Marketing and growth', zh: '营销和增长' },
+    skillIds: ['producthunt', 'twitter', 'reddit', 'seo-geo', 'domain-hunter', 'logo-creator', 'banner-creator', 'requesthunt'],
+  },
 ]
 
 // Translations
