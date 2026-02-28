@@ -1,0 +1,10 @@
+# Robots.txt for Skills Library
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://skillslibrary.fun/sitemap.xml
+
+# Disallow admin/private paths
+Disallow: /admin
+Disallow: /api
