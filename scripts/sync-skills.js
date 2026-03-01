@@ -22,6 +22,13 @@ function inferCategory(name, description) {
   if (text.match(/discord|slack|whatsapp|imsg|message|call|voice/)) return 'Communication';
   if (text.match(/github|git|coding|code|dev|cli|session|model|debug|mcp/)) return 'Development';
   if (text.match(/image|pdf|video|audio|transcribe|tts|speech|music|spotify|media/)) return 'Media';
+  if (text.match(/invoice|receipt|financial|expense|accounting/)) return '商业';
+  if (text.match(/lead|client|customer|prospect|market|competitive|ads?|ad$/)) return '商业';
+  if (text.match(/meeting|transcript|insight|analysis/)) return '商业';
+  if (text.match(/content|writing|blog|article|document/)) return 'Productivity';
+  if (text.match(/domain|name.?brain|brand/)) return '商业';
+  if (text.match(/resume|cv|job.*apply|career/)) return '商业';
+  if (text.match(/notion|project.*manage/)) return 'Productivity';
   if (text.match(/weather|place|food|order|life|home|health/)) return 'Lifestyle';
   if (text.match(/ai|gemini|openai|llm|summarize/)) return 'AI';
   if (text.match(/reminder|todo|things|trello|kanban|project/)) return 'Productivity';
@@ -137,7 +144,11 @@ async function syncSkills() {
   }
   
   // Generate skills.ts file
-  const categories = [...new Set(skills.map(s => s.category))].sort();
+  let categories = [...new Set(skills.map(s => s.category))].sort();
+  // Ensure 商业 category exists
+  if (!categories.includes('商业')) {
+    categories = ['商业', ...categories];
+  }
   
   const output = `export interface Skill {
   id: string
