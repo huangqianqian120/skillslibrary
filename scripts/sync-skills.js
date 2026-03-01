@@ -143,6 +143,26 @@ async function syncSkills() {
     }
   }
   
+  // Add custom skills that don't exist in OpenClaw repo
+  const customSkills = [
+    { id: 'invoice-organizer', name: 'invoice-organizer', description: 'Organize, categorize, and manage invoices and receipts. Useful for accounting, expense tracking, and financial record keeping.', category: '商业' },
+    { id: 'lead-research-assistant', name: 'lead-research-assistant', description: 'Research and gather information about potential leads, companies, or contacts. Supports enrichment from multiple data sources.', category: '商业' },
+    { id: 'meeting-insights-analyzer', name: 'meeting-insights-analyzer', description: 'Analyze meeting transcripts and notes to extract key insights, action items, and decisions. Great for team retrospectives.', category: '商业' },
+    { id: 'competitive-ads-extractor', name: 'competitive-ads-extractor', description: 'Extract and analyze competitive advertising data from various platforms. Useful for market research, ad monitoring, and competitor analysis.', category: '商业' },
+    { id: 'content-research-writer', name: 'content-research-writer', description: 'Research topics, gather information from multiple sources, and assist in writing well-structured content. Great for blog posts, articles, and documentation.', category: '商业' },
+    { id: 'domain-name-brainstormer', name: 'domain-name-brainstormer', description: 'Generate creative domain name ideas based on keywords, industries, or themes. Checks availability and provides alternatives.', category: '商业' },
+    { id: 'tailored-resume-generator', name: 'tailored-resume-generator', description: 'Generate customized resumes based on job descriptions. Tailors content, keywords, and formatting for specific positions.', category: '商业' },
+    { id: 'document-skills', name: 'document-skills', description: 'Create, format, and manage professional documents including reports, proposals, and technical documentation. Supports multiple formats and templates.', category: '商业' },
+  ];
+  
+  // Add custom skills (avoid duplicates)
+  const existingIds = new Set(skills.map(s => s.id));
+  customSkills.forEach(s => {
+    if (!existingIds.has(s.id)) {
+      skills.push(s);
+    }
+  });
+  
   // Generate skills.ts file
   let categories = [...new Set(skills.map(s => s.category))].sort();
   // Ensure 商业 category exists
