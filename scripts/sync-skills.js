@@ -144,11 +144,12 @@ async function syncSkills() {
   name: string
   description: string
   emoji?: string
+  tags?: string[]
   category: string
 }
 
 export const skills: Skill[] = [
-${skills.map(s => `  { id: '${s.id}', name: '${s.name}', description: '${s.description.replace(/'/g, "\\'")}', category: '${s.category}' }`).join(',\n')}
+${skills.map(s => `  { id: '${s.id}', name: '${s.name}', description: '${s.description.replace(/'/g, "\\'")}', tags: [], category: '${s.category}' }`).join(',\n')}
 ]
 
 export const categories = ${JSON.stringify(categories, null, 2)}
