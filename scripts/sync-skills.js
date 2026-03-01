@@ -145,6 +145,7 @@ async function syncSkills() {
   
   // Add custom skills that don't exist in OpenClaw repo
   const customSkills = [
+    // 商业
     { id: 'invoice-organizer', name: 'invoice-organizer', description: 'Organize, categorize, and manage invoices and receipts. Useful for accounting, expense tracking, and financial record keeping.', category: '商业' },
     { id: 'lead-research-assistant', name: 'lead-research-assistant', description: 'Research and gather information about potential leads, companies, or contacts. Supports enrichment from multiple data sources.', category: '商业' },
     { id: 'meeting-insights-analyzer', name: 'meeting-insights-analyzer', description: 'Analyze meeting transcripts and notes to extract key insights, action items, and decisions. Great for team retrospectives.', category: '商业' },
@@ -153,6 +154,16 @@ async function syncSkills() {
     { id: 'domain-name-brainstormer', name: 'domain-name-brainstormer', description: 'Generate creative domain name ideas based on keywords, industries, or themes. Checks availability and provides alternatives.', category: '商业' },
     { id: 'tailored-resume-generator', name: 'tailored-resume-generator', description: 'Generate customized resumes based on job descriptions. Tailors content, keywords, and formatting for specific positions.', category: '商业' },
     { id: 'document-skills', name: 'document-skills', description: 'Create, format, and manage professional documents including reports, proposals, and technical documentation. Supports multiple formats and templates.', category: '商业' },
+    // Marketing
+    { id: 'marketing-ideas', name: 'marketing-ideas', description: 'When the user needs marketing ideas, inspiration, or strategies for their SaaS or software product. This skill provides 139 proven marketing approaches organized by category.', category: '商业' },
+    { id: 'marketing-psychology', name: 'marketing-psychology', description: 'When the user wants to apply psychological principles, mental models, or behavioral science to marketing. This skill provides 70+ mental models organized for marketing application.', category: '商业' },
+    { id: 'copywriting', name: 'copywriting', description: 'When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages.', category: '商业' },
+    { id: 'seo-audit', name: 'seo-audit', description: 'When the user wants to audit, review, or diagnose SEO issues on their site. Includes technical SEO, on-page SEO, meta tags review, and SEO health check.', category: 'Productivity' },
+    { id: 'content-strategy', name: 'content-strategy', description: 'When the user wants to plan a content strategy, decide what content to create, or figure out what topics to cover.', category: '商业' },
+    { id: 'growth', name: 'growth', description: 'Product growth and product-market fit. Use when testing if you have PMF, designing activation flows, thinking about retention, or planning acquisition channels.', category: '商业' },
+    // Research
+    { id: 'tavily', name: 'tavily', description: 'AI-powered web search, extraction, and research. Use when user wants to search the web, extract content from URLs, crawl websites, or do deep research on a topic.', category: 'Development' },
+    { id: 'ddg-web-search', name: 'ddg-web-search', description: 'Web search without an API key using DuckDuckGo Lite via web_fetch. Zero dependencies — works with just the built-in web_fetch tool.', category: 'Development' },
   ];
   
   // Add custom skills (avoid duplicates)

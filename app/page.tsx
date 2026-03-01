@@ -53,8 +53,8 @@ const scenes = [
     id: 'business',
     name: { en: 'Business', zh: '商业' },
     icon: '💼',
-    description: { en: 'Business and productivity', zh: '商业和效率' },
-    skillIds: ['invoice-organizer', 'lead-research-assistant', 'meeting-insights-analyzer', 'competitive-ads-extractor', 'content-research-writer', 'domain-name-brainstormer', 'tailored-resume-generator', 'document-skills'],
+    description: { en: 'Business and marketing', zh: '商业和营销' },
+    skillIds: ['invoice-organizer', 'lead-research-assistant', 'meeting-insights-analyzer', 'competitive-ads-extractor', 'content-research-writer', 'domain-name-brainstormer', 'tailored-resume-generator', 'document-skills', 'marketing-ideas', 'marketing-psychology', 'copywriting', 'content-strategy', 'growth'],
   },
 ]
 
