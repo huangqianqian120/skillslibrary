@@ -51,10 +51,10 @@ const scenes = [
   },
   {
     id: 'business',
-    name: { en: 'Business', zh: '商业运营' },
+    name: { en: 'Business', zh: '商业' },
     icon: '💼',
-    description: { en: 'Marketing and growth', zh: '营销和增长' },
-    skillIds: ['producthunt', 'twitter', 'reddit', 'seo-geo', 'domain-hunter', 'logo-creator', 'banner-creator', 'requesthunt'],
+    description: { en: 'Business and productivity', zh: '商业和效率' },
+    skillIds: ['invoice-organizer', 'lead-research-assistant', 'meeting-insights-analyzer', 'competitive-ads-extractor', 'content-research-writer', 'domain-name-brainstormer', 'tailored-resume-generator', 'document-skills'],
   },
 ]
 
