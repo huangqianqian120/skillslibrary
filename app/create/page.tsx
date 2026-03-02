@@ -432,7 +432,7 @@ ${chatMessages.map(m => m.content).join('\n\n')}
             <div className="flex gap-2 mb-6">
               <button
                 onClick={() => setInputMode('chat')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-lg font-medium transition-colors ${
                   inputMode === 'chat' 
                     ? 'bg-gray-900 text-white' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -442,7 +442,7 @@ ${chatMessages.map(m => m.content).join('\n\n')}
               </button>
               <button
                 onClick={() => setInputMode('workflow')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-lg font-medium transition-colors ${
                   inputMode === 'workflow' 
                     ? 'bg-gray-900 text-white' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -476,7 +476,7 @@ ${chatMessages.map(m => m.content).join('\n\n')}
                     onChange={(e) => setCurrentInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                     placeholder={t.placeholder}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm"
+                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-lg"
                   />
                   <button
                     onClick={handleSendMessage}
@@ -501,7 +501,7 @@ ${chatMessages.map(m => m.content).join('\n\n')}
             {/* N8n Mode */}
             {inputMode === 'workflow' && (
               <div className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-xl text-sm text-blue-700">
+                <div className="p-4 bg-blue-50 rounded-xl text-lg text-blue-700">
                   <p className="font-medium mb-1">💡 提示</p>
                   <p>粘贴你的工作流 JSON，AI 会自动将其转换为 Skill。</p>
                 </div>
@@ -510,11 +510,11 @@ ${chatMessages.map(m => m.content).join('\n\n')}
                   value={n8nJson}
                   onChange={(e) => setN8nJson(e.target.value)}
                   placeholder='{"name": "My Workflow", "nodes": [...], ...}'
-                  className="w-full h-64 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-mono"
+                  className="w-full h-64 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-lg font-mono"
                 />
                 
                 {n8nError && (
-                  <p className="text-red-500 text-sm">{n8nError}</p>
+                  <p className="text-red-500 text-lg">{n8nError}</p>
                 )}
                 
                 <button
@@ -542,22 +542,22 @@ ${chatMessages.map(m => m.content).join('\n\n')}
               ) : (
                 <>
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-lg font-medium text-gray-700 mb-2">
                       技能名称
                     </label>
                     <input
                       type="text"
                       value={skillName}
                       onChange={(e) => setSkillName(e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm"
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-lg"
                     />
                   </div>
 
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-lg font-medium text-gray-700 mb-2">
                       SKILL.md
                     </label>
-                    <pre className="w-full h-64 p-4 bg-white border border-gray-200 rounded-xl text-sm overflow-auto font-mono">
+                    <pre className="w-full h-64 p-4 bg-white border border-gray-200 rounded-xl text-lg overflow-auto font-mono">
                       {generatedSkill}
                     </pre>
                   </div>

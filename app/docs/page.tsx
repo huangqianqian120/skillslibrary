@@ -77,7 +77,7 @@ export default function DocsPage() {
                 <li><strong>description</strong>：Skill 描述，说明功能和适用场景</li>
                 <li><strong>metadata</strong>：元数据配置</li>
               </ul>
-              <pre className="mt-4 bg-gray-900 text-gray-100 p-4 rounded-lg text-sm overflow-x-auto">
+              <pre className="mt-4 bg-gray-900 text-gray-100 p-4 rounded-lg text-lg overflow-x-auto">
 {`---
 name: weather
 description: "获取天气信息"
@@ -112,7 +112,7 @@ metadata:
               ].map(s => (
                 <div key={s.name} className="p-4 border rounded-lg">
                   <div className="font-medium">{s.name} - {s.desc}</div>
-                  <div className="text-sm text-gray-500 mt-1">包含: {s.skills}</div>
+                  <div className="text-lg text-gray-500 mt-1">包含: {s.skills}</div>
                 </div>
               ))}
             </div>
@@ -147,7 +147,7 @@ metadata:
               {faqs.map((faq, i) => (
                 <div key={i} className="border-b pb-4">
                   <h3 className="font-medium text-gray-900 mb-2">{faq.question}</h3>
-                  <p className="text-gray-600 text-sm">{faq.answer}</p>
+                  <p className="text-gray-600 text-lg">{faq.answer}</p>
                 </div>
               ))}
             </div>
