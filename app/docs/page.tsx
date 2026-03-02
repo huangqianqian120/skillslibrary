@@ -23,7 +23,11 @@ const faqs = [
   },
   {
     question: "Skill 和 MCP 有什么区别？",
-    answer: "Skill 是轻量级的功能模块，MCP (Model Context Protocol) 是更标准的协议。Skill 可以看作是简化版的 MCP。"
+    answer: "MCP (Model Context Protocol) 是连接 AI 与外部系统的开源标准（像 USB-C 之于电脑），Skill 是更轻量的功能模块。MCP 需要编写服务端代码，Skill 更简单，只需定义描述即可使用。"
+  },
+  {
+    question: "如何使用 CLI？",
+    answer: "1. 安装：npm install -g openclaw\n2. skills list - 列出所有 skills\n3. skills info - 查看详情\n4. skills check - 检查 skills 状态"
   },
   {
     question: "创建的 Skill 在哪里查看？",
