@@ -16,6 +16,7 @@ const SKILLS_PATH = 'skills';
 
 // Categories mapping based on skill name/description patterns
 function inferCategory(name, description) {
+  if (name === 'weather') return 'Lifestyle';
   const text = `${name} ${description}`.toLowerCase();
   
   if (text.match(/note|obsidian|bear|markdown|writing|edit/)) return 'Productivity';
