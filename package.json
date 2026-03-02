@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/sync-skills.js && next build",
+    "build": "next build",
+    "sync": "node scripts/sync-skills.js",
     "start": "next start",
     "lint": "eslint"
   },
