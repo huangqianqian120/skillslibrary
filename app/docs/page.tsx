@@ -16,16 +16,36 @@ const faqs = [
   {
     question: "Skill 需要特定模型吗？",
     answer: "部分 Skill 需要特定 LLM 模型，详情页会标注「推荐模型」。"
+  },
+  {
+    question: "可以创建私人 Skill 吗？",
+    answer: "可以。点击「创建 Skill」按钮创建的 Skill 保存在个人列表，不公开发布。"
+  },
+  {
+    question: "Skill 和 MCP 有什么区别？",
+    answer: "Skill 是轻量级的功能模块，MCP (Model Context Protocol) 是更标准的协议。Skill 可以看作是简化版的 MCP。"
+  },
+  {
+    question: "创建的 Skill 在哪里查看？",
+    answer: "登录后在「创建 Skill」页面可以看到个人创建的 Skill 列表。"
+  },
+  {
+    question: "如何删除已创建的 Skill？",
+    answer: "在个人 Skill 列表中可以删除已创建的 Skill。"
+  },
+  {
+    question: "Skill 支持哪些环境变量？",
+    answer: "可以在 metadata.openclaw.requires.env 中定义需要的 API Key、Token 等。"
   }
 ]
 
 export default function DocsPage() {
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-6">
         <BackButton />
         
-        <h1 className="text-3xl font-bold text-gray-900 mt-6 mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 mt-6 mb-8">
           Skills Library 文档
         </h1>
 
@@ -102,7 +122,7 @@ metadata:
             <h2 className="text-2xl font-bold text-gray-900 mb-4">创建 Skill</h2>
             <p className="text-gray-600 mb-4">两种方式创建新 Skill：</p>
             
-            <h3 className="text-lg font-medium text-gray-900 mb-2">方式一：描述需求 AI 生成</h3>
+            <h3 className="text-base font-medium text-gray-900 mb-2">方式一：描述需求 AI 生成</h3>
             <ol className="list-decimal list-inside space-y-2 text-gray-600 mb-6">
               <li>点击顶部的「创建 Skill」按钮</li>
               <li>描述你的需求（如"帮我做一个每天早上抓取科技新闻的技能"）</li>
@@ -111,7 +131,7 @@ metadata:
               <li>保存到个人列表</li>
             </ol>
 
-            <h3 className="text-lg font-medium text-gray-900 mb-2">方式二：导入工作流 JSON</h3>
+            <h3 className="text-base font-medium text-gray-900 mb-2">方式二：导入工作流 JSON</h3>
             <ol className="list-decimal list-inside space-y-2 text-gray-600">
               <li>点击顶部的「创建 Skill」按钮</li>
               <li>选择「导入工作流」</li>
