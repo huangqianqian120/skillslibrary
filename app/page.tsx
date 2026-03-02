@@ -28,13 +28,7 @@ const scenes = [
     description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
     skillIds: ['things-mac', 'apple-reminders', 'trello', 'notion', 'apple-notes'],
   },
-  {
-    id: 'communicator',
-    name: { en: 'Communicator', zh: '沟通达人' },
-    icon: '💬',
-    description: { en: 'Chat, call, and message', zh: '聊天、通话、消息' },
-    skillIds: ['discord', 'slack', 'wacli', 'imsg', 'bird'],
-  },
+  
   {
     id: 'media',
     name: { en: 'Media Creator', zh: '媒体创作' },
@@ -106,8 +100,7 @@ export default function Home() {
   const [lang, setLang] = useState<Language>('en')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedTag, setSelectedTag] = useState<string | null>(null)
-  const [selectedScene, setSelectedScene] = useState<string | null>(null)
+    const [selectedScene, setSelectedScene] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const ITEMS_PER_PAGE = 20
@@ -128,11 +121,6 @@ export default function Home() {
       result = result.filter(s => s.category === selectedCategory)
     }
 
-    // Filter by tag
-    if (selectedTag) {
-      result = result.filter(s => s.tags && s.tags.includes(selectedTag))
-    }
-
     // Filter by search (fuzzy search)
     if (search) {
       const searchLower = search.toLowerCase()
@@ -149,7 +137,7 @@ export default function Home() {
     }
 
     return result
-  }, [search, selectedCategory, selectedScene, selectedTag])
+  }, [search, selectedCategory, selectedScene])
 
   // Pagination
   const totalPages = Math.ceil(filteredSkills.length / ITEMS_PER_PAGE)
