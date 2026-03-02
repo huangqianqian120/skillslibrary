@@ -37,7 +37,7 @@ export default function DocsPage() {
           Skills Library 文档
         </h1>
 
-        <div className="space-y-8 text-xs">
+        <div className="space-y-8 text-sm">
           <section>
             <h2 className="text-base font-bold text-gray-900 mb-3">什么是 Skill</h2>
             <p className="text-gray-600 mb-2">
@@ -67,7 +67,7 @@ export default function DocsPage() {
                 <li><strong>description</strong>：Skill 描述，说明功能和适用场景</li>
                 <li><strong>metadata</strong>：元数据配置</li>
               </ul>
-              <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">
+              <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-sm overflow-x-auto">
 {`---
 name: weather
 description: "获取天气信息"
