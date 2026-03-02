@@ -3,7 +3,7 @@
 import { useState, useMemo, createContext } from 'react'
 import { CLISection } from '@/components/CLISection'
 import Link from 'next/link'
-import { skills, categories } from '@/data/skills'
+import { skills, categories, tagsConfig } from '@/data/skills'
 
 // Scenes/Roles configuration
 const scenes = [
@@ -106,6 +106,7 @@ export default function Home() {
   const [lang, setLang] = useState<Language>('en')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [selectedScene, setSelectedScene] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -127,6 +128,11 @@ export default function Home() {
       result = result.filter(s => s.category === selectedCategory)
     }
 
+    // Filter by tag
+    if (selectedTag) {
+      result = result.filter(s => s.tags && s.tags.includes(selectedTag))
+    }
+
     // Filter by search (fuzzy search)
     if (search) {
       const searchLower = search.toLowerCase()
@@ -143,7 +149,7 @@ export default function Home() {
     }
 
     return result
-  }, [search, selectedCategory, selectedScene])
+  }, [search, selectedCategory, selectedScene, selectedTag])
 
   // Pagination
   const totalPages = Math.ceil(filteredSkills.length / ITEMS_PER_PAGE)
