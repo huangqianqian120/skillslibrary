@@ -4,7 +4,28 @@ import { useState } from 'react'
 import Link from 'next/link'
 import BackButton from '../components/BackButton'
 
-const faqs = [
+const faqs: any[] = [
+  {
+    question: "如何查找需要的 Skill？",
+    answer: "在首页可以使用场景筛选或搜索功能。也可以直接访问 /skill/[id] 查看特定 Skill 的详情。"
+  },
+  {
+    question: "如何安装 Skill？",
+    answer: "每个 Skill 详情页都有 GitHub 链接，可以直接从仓库克隆或参考 SKILL.md 手动安装。"
+  },
+  {
+    question: "Skill 需要特定模型吗？",
+    answer: "部分 Skill 需要特定 LLM 模型，详情页会标注「推荐模型」。"
+  },
+  {
+    question: "可以创建私人 Skill 吗？",
+    answer: "可以。点击「创建 Skill」按钮创建的 Skill 保存在本地，不公开发布。"
+  },
+  {
+    question: "Skill 和 MCP 有什么区别？",
+    answer: "MCP (Model Context Protocol) 是连接 AI 与外部系统的开源标准（像 USB-C 之于电脑），Skill 是更轻量的功能模块。MCP 需要编写服务端代码，Skill 更简单，只需定义描述即可使用。"
+  }
+
   {
     question: "如何查找需要的 Skill？",
     answer: "在首页可以使用场景筛选或搜索功能。也可以直接访问 /skill/[id] 查看特定 Skill 的详情。"
