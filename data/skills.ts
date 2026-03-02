@@ -10,6 +10,7 @@ export interface Skill {
   installCount?: number
   rating?: number
   lastUpdated?: string
+  requiredModel?: string
 }
 
 export const categories = ['All', 'AI', 'Automation', 'Business', 'Communication', 'Data', 'Development', 'Lifestyle', 'Media', 'Productivity']

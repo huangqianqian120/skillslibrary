@@ -151,6 +151,12 @@ export default function SkillPage() {
                 <p className="text-lg font-medium text-gray-900">v{skill.version || '1.0'}</p>
                 <p className="text-xs">版本</p>
               </div>
+              {skill.requiredModel && (
+                <div className="text-center">
+                  <p className="text-lg font-medium text-blue-600">{skill.requiredModel}</p>
+                  <p className="text-xs">推荐模型</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -172,6 +178,12 @@ export default function SkillPage() {
               <p className="text-base font-medium text-gray-900">v{skill.version || '1.0'}</p>
               <p className="text-xs">版本</p>
             </div>
+            {skill.requiredModel && (
+              <div className="text-center">
+                <p className="text-base font-medium text-blue-600">{skill.requiredModel}</p>
+                <p className="text-xs">推荐模型</p>
+              </div>
+            )}
           </div>
 
           {/* Author */}
