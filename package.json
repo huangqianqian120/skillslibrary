@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "sync-local": "node scripts/sync-local.js",
     "sync": "node scripts/sync-skills.js",
     "start": "next start",
     "lint": "eslint"
