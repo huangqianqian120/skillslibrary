@@ -12,10 +12,9 @@ export function CLISection() {
   }
 
   const cliCommands = [
-    { cmd: 'skills list', desc: 'List all skills' },
-    { cmd: 'skills search', desc: 'Search skills' },
-    { cmd: 'skills cat', desc: 'Show skill details' },
-    { cmd: 'skills install', desc: 'Install skill' },
+    { cmd: 'skills list', desc: 'List all available skills' },
+    { cmd: 'skills info', desc: 'Show detailed skill information' },
+    { cmd: 'skills check', desc: 'Check skills ready vs missing' },
   ]
 
   return (
@@ -33,13 +32,13 @@ export function CLISection() {
         <h3 className="text-sm font-medium text-gray-500 mb-2">1. Install</h3>
         <div className="flex items-center gap-2">
           <code className="bg-gray-100 px-2 py-1.5 rounded text-xs font-mono text-gray-700 flex-1">
-            npm install -g skills-cli
+            npm install -g openclaw
           </code>
           <button
-            onClick={() => copyCode('npm install -g skills-cli')}
+            onClick={() => copyCode('npm install -g openclaw')}
             className="px-2 py-1.5 bg-gray-200 hover:bg-gray-300 rounded text-xs transition"
           >
-            {copied === 'npm install -g skills-cli' ? '✓' : '📋'}
+            {copied === 'npm install -g openclaw' ? '✓' : '📋'}
           </button>
         </div>
       </div>
