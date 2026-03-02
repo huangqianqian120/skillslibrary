@@ -89,3 +89,4 @@ export const skills: Skill[] = [
   { id: 'youtube', name: 'youtube', description: 'YouTube video management.', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 380, rating: 4.3, lastUpdated: '2026-01-20' },
   { id: 'sag', name: 'sag', description: 'ElevenLabs voice output (SAG).', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 520, rating: 4.6, lastUpdated: '2026-01-22' },
   { id: 'whisper', name: 'whisper', description: 'OpenAI Whisper transcription.', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 440, rating: 4.5, lastUpdated: '2026-01-18' },
+]
