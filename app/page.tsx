@@ -12,6 +12,50 @@ const scenes = [
     name: { en: 'Developer', zh: '开发者' },
     icon: '💻',
     description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
+    skillIds: ['github', 'skill-creator', 'hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills', 'mcp-builder', 'using-superpowers', 'subagent-driven-development', 'agent-tools', 'agent-browser', 'browser-use', 'systematic-debugging', 'vercel-react-best-practices', 'remotion-best-practices', 'vercel-composition-patterns', 'vercel-react-native-skills', 'supabase-postgres-best-practices', 'next-best-practices', 'frontend-design', 'tailwind-design-system', 'just-scrape'],
+  },
+  {
+    id: 'writer',
+    name: { en: 'Writer', zh: '写作者' },
+    icon: '✍️',
+    description: { en: 'Write, edit, and publish', zh: '写作、编辑、发布' },
+    skillIds: ['notion', 'mimeng-writing', 'copywriting', 'brainstorming', 'writing-plans', 'executing-plans', 'copy-editing', 'content-strategy', 'content-strategy-new', 'document-summarizer'],
+  },
+  {
+    id: 'organizer',
+    name: { en: 'Organizer', zh: '效率党' },
+    icon: '📋',
+    description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
+    skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'us-gov-shutdown-tracker'],
+  },
+  {
+    id: 'media',
+    name: { en: 'Media Creator', zh: '媒体创作' },
+    icon: '🎨',
+    description: { en: 'Images, audio, and video', zh: '图片、音频、视频' },
+    skillIds: ['nano-pdf', 'tavily', 'ai-news-aggregator', 'baoyu-cover-image', 'baoyu-comic', 'baoyu-infographic', 'canvas-design', 'ui-ux-pro-max', 'web-design-guidelines', 'social-content', 'pdf-op', 'pptx-op', 'docx-op', 'xlsx-op', 'baoyu-url-to-markdown', 'baoyu-markdown-to-html', 'baoyu-format-markdown'],
+  },
+  {
+    id: 'monitor',
+    name: { en: 'Monitor', zh: '监控追踪' },
+    icon: '👀',
+    description: { en: 'Track updates and feeds', zh: '追踪更新和动态' },
+    skillIds: ['weather', 'blogwatcher', 'tavily', 'competitor-tracker', 'business-news-aggregator', 'ai-news-aggregator', 'us-gov-shutdown-tracker'],
+  },
+  {
+    id: 'business',
+    name: { en: 'Business', zh: '商业' },
+    icon: '💼',
+    description: { en: 'Business and marketing', zh: '商业和营销' },
+    skillIds: ['marketing-ideas', 'marketing-psychology', 'content-strategy', 'content-strategy-new', 'copywriting', 'copywriting-new', 'growth', 'product-strategy', 'user-research', 'seo-audit', 'audit-website', 'programmatic-seo', 'pricing-strategy', 'product-marketing-context', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'ab-test-setup', 'location-advisor', 'mckinsey-consultant'],
+  },
+]
+//
+  {
+    id: 'developer',
+    name: { en: 'Developer', zh: '开发者' },
+    icon: '💻',
+    description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
     skillIds: ['github', 'coding-agent', 'tmux', 'session-logs', 'model-usage', 'oracle', 'skill-creator', 'skills-library'],
   },
   {
@@ -50,6 +94,7 @@ const scenes = [
     description: { en: 'Business and marketing', zh: '商业和营销' },
     skillIds: ['invoice-organizer', 'lead-research-assistant', 'meeting-insights-analyzer', 'competitive-ads-extractor', 'content-research-writer', 'domain-name-brainstormer', 'tailored-resume-generator', 'document-skills', 'marketing-ideas', 'marketing-psychology', 'copywriting', 'content-strategy', 'growth'],
   },
+
 ]
 
 // Translations
