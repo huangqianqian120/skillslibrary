@@ -28,6 +28,7 @@ const scenes = [
     description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
     skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'us-gov-shutdown-tracker'],
   },
+  
   {
     id: 'media',
     name: { en: 'Media Creator', zh: '媒体创作' },
@@ -49,52 +50,6 @@ const scenes = [
     description: { en: 'Business and marketing', zh: '商业和营销' },
     skillIds: ['marketing-ideas', 'marketing-psychology', 'content-strategy', 'content-strategy-new', 'copywriting', 'copywriting-new', 'growth', 'product-strategy', 'user-research', 'seo-audit', 'audit-website', 'programmatic-seo', 'pricing-strategy', 'product-marketing-context', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'ab-test-setup', 'location-advisor', 'mckinsey-consultant'],
   },
-]
-//
-  {
-    id: 'developer',
-    name: { en: 'Developer', zh: '开发者' },
-    icon: '💻',
-    description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
-    skillIds: ['github', 'coding-agent', 'tmux', 'session-logs', 'model-usage', 'oracle', 'skill-creator', 'skills-library'],
-  },
-  {
-    id: 'writer',
-    name: { en: 'Writer', zh: '写作者' },
-    icon: '✍️',
-    description: { en: 'Write, edit, and publish', zh: '写作、编辑、发布' },
-    skillIds: ['apple-notes', 'bear-notes', 'obsidian', 'summarize'],
-  },
-  {
-    id: 'organizer',
-    name: { en: 'Organizer', zh: '效率党' },
-    icon: '📋',
-    description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
-    skillIds: ['things-mac', 'apple-reminders', 'trello', 'notion', 'apple-notes'],
-  },
-  
-  {
-    id: 'media',
-    name: { en: 'Media Creator', zh: '媒体创作' },
-    icon: '🎨',
-    description: { en: 'Images, audio, and video', zh: '图片、音频、视频' },
-    skillIds: ['openai-image-gen', 'nano-pdf', 'video-frames', 'sag', 'openai-whisper'],
-  },
-  {
-    id: 'monitor',
-    name: { en: 'Monitor', zh: '监控追踪' },
-    icon: '👀',
-    description: { en: 'Track updates and feeds', zh: '追踪更新和动态' },
-    skillIds: ['blogwatcher', 'weather', 'goplaces'],
-  },
-  {
-    id: 'business',
-    name: { en: 'Business', zh: '商业' },
-    icon: '💼',
-    description: { en: 'Business and marketing', zh: '商业和营销' },
-    skillIds: ['invoice-organizer', 'lead-research-assistant', 'meeting-insights-analyzer', 'competitive-ads-extractor', 'content-research-writer', 'domain-name-brainstormer', 'tailored-resume-generator', 'document-skills', 'marketing-ideas', 'marketing-psychology', 'copywriting', 'content-strategy', 'growth'],
-  },
-
 ]
 
 // Translations
