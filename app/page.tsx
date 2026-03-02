@@ -12,7 +12,7 @@ const scenes = [
     name: { en: 'Developer', zh: '开发者' },
     icon: '💻',
     description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
-    skillIds: ['github', 'skill-creator', 'hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills', 'mcp-builder', 'using-superpowers', 'subagent-driven-development', 'agent-tools', 'agent-browser', 'browser-use', 'systematic-debugging', 'vercel-react-best-practices', 'remotion-best-practices', 'vercel-composition-patterns', 'vercel-react-native-skills', 'supabase-postgres-best-practices', 'next-best-practices', 'frontend-design', 'tailwind-design-system', 'just-scrape'],
+    skillIds: ['hello-world', 'skill-creator', 'hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills', 'mcp-builder', 'using-superpowers', 'subagent-driven-development', 'agent-tools', 'agent-browser', 'browser-use', 'systematic-debugging', 'vercel-react-best-practices', 'remotion-best-practices', 'vercel-composition-patterns', 'vercel-react-native-skills', 'supabase-postgres-best-practices', 'next-best-practices', 'frontend-design', 'tailwind-design-system', 'just-scrape'],
   },
   {
     id: 'writer',
