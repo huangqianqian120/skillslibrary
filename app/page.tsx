@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo, createContext } from 'react'
-import { CLISection } from '@/components/CLISection'
 import Link from 'next/link'
 import { skills, categories, tagsConfig } from '@/data/skills'
 
@@ -242,7 +241,6 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {/* CLI Section */}
-          <CLISection />
 
           {/* Scenes Section - Horizontal scroll on mobile */}
           <section className="mb-8 sm:mb-10">

@@ -5,42 +5,6 @@ import Link from 'next/link'
 import BackButton from '../components/BackButton'
 
 const faqs = [
-  {
-    question: "如何查找需要的 Skill？",
-    answer: "在首页可以使用场景筛选或搜索功能。也可以直接访问 /skill/[id] 查看特定 Skill 的详情。"
-  },
-  {
-    question: "如何安装 Skill？",
-    answer: "每个 Skill 详情页都有 GitHub 链接，可以直接从仓库克隆或参考 SKILL.md 手动安装。"
-  },
-  {
-    question: "Skill 需要特定模型吗？",
-    answer: "部分 Skill 需要特定 LLM 模型，详情页会标注「推荐模型」。"
-  },
-  {
-    question: "可以创建私人 Skill 吗？",
-    answer: "可以。点击「创建 Skill」按钮创建的 Skill 保存在本地，不公开发布。"
-  },
-  {
-    question: "Skill 和 MCP 有什么区别？",
-    answer: "MCP (Model Context Protocol) 是连接 AI 与外部系统的开源标准（像 USB-C 之于电脑），Skill 是更轻量的功能模块。MCP 需要编写服务端代码，Skill 更简单，只需定义描述即可使用。"
-  },
-  {
-    question: "如何使用 CLI？",
-    answer: "1. 安装：npm install -g openclaw\n2. skills list - 列出所有 skills\n3. skills info - 查看详情\n4. skills check - 检查 skills 状态"
-  },
-  {
-    question: "创建的 Skill 在哪里查看？",
-    answer: "登录后在「创建 Skill」页面可以看到个人创建的 Skill 列表。"
-  },
-  {
-    question: "如何删除已创建的 Skill？",
-    answer: "在个人 Skill 列表中可以删除已创建的 Skill。"
-  },
-  {
-    question: "Skill 支持哪些环境变量？",
-    answer: "可以在 metadata.openclaw.requires.env 中定义需要的 API Key、Token 等。"
-  }
 ]
 
 export default function DocsPage() {
