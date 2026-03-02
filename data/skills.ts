@@ -72,7 +72,7 @@ export const skills: Skill[] = [
   { id: 'interview-ai', name: 'interview-ai', description: 'AI-powered interview preparation.', category: 'AI', tags: [], author: 'Community', version: '1.0.0', installCount: 210, rating: 4.2, lastUpdated: '2026-01-18' },
   { id: 'insights-analyzer', name: 'insights-analyzer', description: 'Analyze meeting transcripts and notes.', category: 'AI', tags: [], author: 'Community', version: '1.0.0', installCount: 140, rating: 4.1, lastUpdated: '2026-01-10' },
   { id: 'xiaohongshu-automation', name: 'xiaohongshu-automation', description: 'Xiaohongshu (Red) automation tools.', category: 'Communication', tags: [], author: 'Community', version: '1.0.0', installCount: 280, rating: 4.3, lastUpdated: '2026-01-20' },
-]  { id: 'llm-router', name: 'llm-router', description: 'Route queries to different LLM providers.', category: 'AI', tags: ['Popular', 'Official'], author: 'OpenClaw', version: '2.0.0', installCount: 3200, rating: 4.7, lastUpdated: '2026-01-28' },
+  { id: 'llm-router', name: 'llm-router', description: 'Route queries to different LLM providers.', category: 'AI', tags: ['Popular', 'Official'], author: 'OpenClaw', version: '2.0.0', installCount: 3200, rating: 4.7, lastUpdated: '2026-01-28' },
   { id: 'rag-pipeline', name: 'rag-pipeline', description: 'Build RAG pipelines with chunking and embedding.', category: 'AI', tags: ['New'], author: 'Community', version: '1.0.0', installCount: 156, rating: 4.3, lastUpdated: '2026-02-25' },
   { id: 'data-cleaner', name: 'data-cleaner', description: 'Clean and transform data.', category: 'Data', tags: [], author: 'Community', version: '1.1.0', installCount: 420, rating: 4.2, lastUpdated: '2026-01-20' },
   { id: 'auto-workflow', name: 'auto-workflow', description: 'Create automated workflows.', category: 'Automation', tags: ['Popular'], author: 'OpenClaw', version: '1.5.0', installCount: 1800, rating: 4.6, lastUpdated: '2026-02-15' },
@@ -89,4 +89,3 @@ export const skills: Skill[] = [
   { id: 'youtube', name: 'youtube', description: 'YouTube video management.', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 380, rating: 4.3, lastUpdated: '2026-01-20' },
   { id: 'sag', name: 'sag', description: 'ElevenLabs voice output (SAG).', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 520, rating: 4.6, lastUpdated: '2026-01-22' },
   { id: 'whisper', name: 'whisper', description: 'OpenAI Whisper transcription.', category: 'Media', tags: [], author: 'Community', version: '1.0.0', installCount: 440, rating: 4.5, lastUpdated: '2026-01-18' },
-]
