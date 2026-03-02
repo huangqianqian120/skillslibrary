@@ -23,10 +23,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://skillslibrary.fun"),
   title: {
-    default: "AI Agent Skills Library | 50+ Skills for OpenClaw, Claude Code & Codex",
+    default: "AI Agent Skills Library | Skills for OpenClaw, Claude Code & Codex",
     template: "%s | Skills Library",
   },
-  description: "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more. Free & open-source.",
+  description: "Discover AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more. Free & open-source.",
   keywords: ["AI agent skills", "Claude Code skills", "OpenClaw skills", "Codex skills", "AI assistant plugins", "Claude plugins", "agent skills", "automation skills", "developer tools", "CLI skills", "productivity skills"],
   authors: [{ name: "OpenClaw Community" }],
   creator: "OpenClaw",
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://skillslibrary.fun",
     siteName: "Skills Library",
-    title: "AI Agent Skills Library | 50+ Skills for OpenClaw & Codex",
-    description: "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
+    title: "AI Agent Skills Library | Skills for OpenClaw & Codex",
+    description: "Discover AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
     images: [
       {
         url: "/og-image.png",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "AI Agent Skills Library",
-    description: "Discover 50+ skills for OpenClaw, Claude Code & Codex",
+    description: "Discover skills for OpenClaw, Claude Code & Codex",
     images: ["/og-image.png"],
   },
   other: {
@@ -93,7 +93,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Skills Library",
               "url": "https://skillslibrary.fun",
-              "description": "Discover 50+ AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
+              "description": "Discover AI agent skills for OpenClaw, Claude Code, and Codex. Browse skills for development, productivity, communication, automation, and more.",
               "keywords": ["AI agent skills", "Claude Code skills", "OpenClaw skills", "Codex skills"],
               "potentialAction": {
                 "@type": "SearchAction",

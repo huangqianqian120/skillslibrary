@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     question: "可以创建私人 Skill 吗？",
-    answer: "可以。点击「创建 Skill」按钮创建的 Skill 保存在个人列表，不公开发布。"
+    answer: "可以。点击「创建 Skill」按钮创建的 Skill 保存在本地，不公开发布。"
   },
   {
     question: "Skill 和 MCP 有什么区别？",
@@ -128,7 +128,7 @@ metadata:
               <li>描述你的需求（如"帮我做一个每天早上抓取科技新闻的技能"）</li>
               <li>AI 分析并完善需求</li>
               <li>生成 Skill 代码</li>
-              <li>保存到个人列表</li>
+              <li>保存到本地</li>
             </ol>
 
             <h3 className="text-base font-medium text-gray-900 mb-2">方式二：导入工作流 JSON</h3>
@@ -137,7 +137,7 @@ metadata:
               <li>选择「导入工作流」</li>
               <li>上传 n8n/Dify/LangChain 的工作流 JSON 文件</li>
               <li>AI 自动解析并生成 Skill</li>
-              <li>保存到个人列表</li>
+              <li>保存到本地</li>
             </ol>
           </section>
 
