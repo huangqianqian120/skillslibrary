@@ -63,23 +63,23 @@ export async function fetchWithRetry(
       }
 
       return response;
-    } catch (error: any) {
-      lastError = error;
+    } catch (error: unknown) {
+      lastError = error as Error;
 
       const isRetryable = 
-        error.name === 'AbortError' ||
-        opts.retryableErrors.some(e => error.message?.includes(e));
+        (error as any).name === 'AbortError' ||
+        opts.retryableErrors.some(e => (error as any).message?.includes(e));
 
       if (!isRetryable || attempt === opts.maxRetries) {
         throw new HttpRetryError(
-          `Fetch failed after ${attempt + 1} attempts: ${error.message}`,
-          lastResponse?.status,
-          await lastResponse?.text().catch(() => null)
+          `Fetch failed after ${attempt + 1} attempts: ${(error as any).message}`,
+          lastResponse?.status ?? 0,
+          await lastResponse?.text().catch(() => null) ?? ''
         );
       }
 
       const delay = calculateDelay(attempt, opts);
-      console.log(`[HTTP Retry] Error: ${error.message}, retrying in ${delay}ms...`);
+      console.log(`[HTTP Retry] Error: ${(error as any).message}, retrying in ${delay}ms...`);
       await sleep(delay);
     }
   }
@@ -95,41 +95,6 @@ function calculateDelay(attempt: number, opts: Required<RetryOptions>): number {
 
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-export async function fetchWithRetryNode(
-  url: string,
-  options: RetryOptions = {}
-): Promise<any> {
-  const opts = { ...DEFAULT_OPTIONS, ...options };
-  const https = await import('https');
-
-  const agent = new https.Agent({
-    keepAlive: true,
-    maxSockets: 10,
-  });
-
-  for (let attempt = 0; attempt <= opts.maxRetries; attempt++) {
-    try {
-      const response = await fetch(url, {
-        ...options,
-        agent,
-      });
-
-      if (opts.retryableStatuses.includes(response.status)) {
-        const delay = calculateDelay(attempt, opts);
-        await sleep(delay);
-        continue;
-      }
-
-      return response;
-    } catch (error: any) {
-      if (attempt === opts.maxRetries) throw error;
-      
-      const delay = calculateDelay(attempt, opts);
-      await sleep(delay);
-    }
-  }
 }
 
 export default fetchWithRetry;
