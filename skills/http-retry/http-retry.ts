@@ -4,7 +4,7 @@
  */
 
 export class HttpRetryError extends Error {
-  constructor(message, lastStatus, lastResponse) {
+  constructor(message: string, lastStatus: number, lastResponse: string) {
     super(message);
     this.name = 'HttpRetryError';
     this.lastStatus = lastStatus;
