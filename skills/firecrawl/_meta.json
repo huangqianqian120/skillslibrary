@@ -1,0 +1,8 @@
+{
+  "name": "firecrawl",
+  "version": "1.0.0",
+  "description": "网页数据抓取工具，用于 AI 应用",
+  "keywords": ["firecrawl", "web scraping", "crawler", "ai", "data"],
+  "categories": ["developer", "productivity"],
+  "dependencies": ["@mendable/firecrawl-js"]
+}
