@@ -221,7 +221,7 @@ export default function SkillPage() {
             {/* Download Button - Direct download */}
             <button
               onClick={() => {
-                const url = `https://raw.githubusercontent.com/openclaw/openclaw/main/skills/${skill.id}/SKILL.md`
+                const url = `https://raw.githubusercontent.com/huangqianqian120/skillslibrary/main/skills/${skill.id}/SKILL.md`
                 const link = document.createElement('a')
                 link.href = url
                 link.download = `SKILL.md`
