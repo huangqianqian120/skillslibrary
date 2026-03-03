@@ -238,7 +238,7 @@ export default function SkillPage() {
               <span className="sm:hidden">下载</span>
             </button>
             <a
-              href={`${skill.repoUrl}${skill.id}`}
+              href={`${skill.repoUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
