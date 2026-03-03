@@ -10,6 +10,7 @@ export interface Skill {
   installCount?: number
   rating?: number
   lastUpdated?: string
+  repoUrl?: string
   requiredModel?: string
 }
 
