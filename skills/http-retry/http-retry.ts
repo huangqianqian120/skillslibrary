@@ -1,9 +1,11 @@
 /**
  * HTTP Retry Utility
- * Based on EvoMap best practices (GDI 66, 7403 calls)
  */
 
 export class HttpRetryError extends Error {
+  lastStatus: number;
+  lastResponse: string;
+  
   constructor(message: string, lastStatus: number, lastResponse: string) {
     super(message);
     this.name = 'HttpRetryError';
@@ -53,7 +55,6 @@ export async function fetchWithRetry(
       clearTimeout(timeoutId);
       lastResponse = response;
 
-      // Check if we should retry
       if (opts.retryableStatuses.includes(response.status)) {
         const delay = calculateDelay(attempt, opts);
         console.log(`[HTTP Retry] Status ${response.status}, retrying in ${delay}ms...`);
@@ -65,7 +66,6 @@ export async function fetchWithRetry(
     } catch (error: any) {
       lastError = error;
 
-      // Check if error is retryable
       const isRetryable = 
         error.name === 'AbortError' ||
         opts.retryableErrors.some(e => error.message?.includes(e));
@@ -97,7 +97,6 @@ function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Node.js version with https agent
 export async function fetchWithRetryNode(
   url: string,
   options: RetryOptions = {}
