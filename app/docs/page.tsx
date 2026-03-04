@@ -67,13 +67,16 @@ description: 描述这个技能什么时候使用
             
             <h3 className="text-sm font-medium text-gray-900 mb-2">目录结构</h3>
             <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto mb-4">
-{`my-skill/
-├── SKILL.md           # 主指令（必需）
-├── template.md        # 模板，供 AI 填充
-├── examples/         # 示例输出
-│   └── sample.md
-└── scripts/          # 可执行的脚本
-    └── validate.sh`}
+{`skill-name/
+├── SKILL.md (必需)
+│   ├── YAML 前置元数据 (必需)
+│   │   ├── name: (必需)
+│   │   └── description: (必需)
+│   └── Markdown 指令 (必需)
+└── 打包资源 (可选)
+    ├── scripts/ - 可执行代码
+    ├── references/ - 上下文文档
+    └── assets/ - 输出文件（模板等）`}
             </pre>
             
             <h3 className="text-sm font-medium text-gray-900 mb-2">Frontmatter 字段</h3>
