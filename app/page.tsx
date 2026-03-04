@@ -398,8 +398,8 @@ export default function Home() {
           </div>
         </footer>
       </div>
+      <SkillChatBot />
     </LanguageContext.Provider>
-    <SkillChatBot />
   )
 }
 
