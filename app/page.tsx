@@ -3,6 +3,7 @@
 import { useState, useMemo, createContext } from 'react'
 import Link from 'next/link'
 import { skills, categories, tagsConfig } from '@/data/skills'
+import { SkillChatBot } from '@/components/SkillChatBot'
 
 // Scenes/Roles configuration
 const scenes = [
@@ -398,6 +399,7 @@ export default function Home() {
           </div>
         </footer>
       </div>
+    <SkillChatBot />
     </LanguageContext.Provider>
   )
 }
