@@ -399,6 +399,7 @@ export default function Home() {
         </footer>
       </div>
     </LanguageContext.Provider>
+    <SkillChatBot />
   )
 }
 
