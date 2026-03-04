@@ -14,7 +14,7 @@ export interface Skill {
   requiredModel?: string
 }
 
-export const categories = ['All', 'AI', 'Automation', 'Business', 'Communication', 'Data', 'Development', 'Lifestyle', 'Media', 'Productivity']
+export const categories = ['Discovered','All', 'AI', 'Automation', 'Business', 'Communication', 'Data', 'Development', 'Lifestyle', 'Media', 'Productivity']
 
 export const tagsConfig = {
   New: { label: { en: 'New', zh: '🆕 新增' }, color: 'bg-green-500' },
