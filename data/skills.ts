@@ -175,7 +175,7 @@ export const skills: Skill[] = [
   { id: 'baoyu-format-markdown', name: 'baoyu-format-markdown', description: 'Markdown formatting', category: 'Media', tags: [], author: 'OpenClaw', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
   lastUpdated: '2026-03-02' },
   { id: 'just-scrape', name: 'just-scrape', description: 'Web scraping', category: 'Development', tags: [], author: 'OpenClaw', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
-  lastUpdated: '2026-03-02' }
+  lastUpdated: '2026-03-02' },
   { id: 'generative-media-skills', name: 'generative-media-skills', description: 'generative-media-skills', category: 'Discovered', tags: [], author: 'Discovered', version: '1.0.0', installCount: 0, rating: 0, repoUrl: 'https://github.com/huangqianqian120/skillslibrary/tree/main/skills', lastUpdated: '2026-03-04' },
   { id: 'note', name: 'note', description: 'note', category: 'Discovered', tags: [], author: 'Discovered', version: '1.0.0', installCount: 0, rating: 0, repoUrl: 'https://github.com/huangqianqian120/skillslibrary/tree/main/skills', lastUpdated: '2026-03-04' },
   { id: 'agents-aea', name: 'agents-aea', description: 'agents-aea', category: 'Discovered', tags: [], author: 'Discovered', version: '1.0.0', installCount: 0, rating: 0, repoUrl: 'https://github.com/huangqianqian120/skillslibrary/tree/main/skills', lastUpdated: '2026-03-04' },
