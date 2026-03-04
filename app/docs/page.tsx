@@ -49,42 +49,87 @@ export default function DocsPage() {
           </section>
 
           <section>
+            <h2 className="text-base font-bold text-gray-900 mb-3">Skill 的标准结构</h2>
+            <p className="text-gray-600 mb-3">
+              根据 Claude 官方文档，Skill 由两部分组成：YAML frontmatter + Markdown 内容
+            </p>
+            
+            <h3 className="text-sm font-medium text-gray-900 mb-2">YAML Frontmatter</h3>
+            <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto mb-4">
+{`---
+name: skill-name
+description: 描述这个技能什么时候使用
+---
+
+# 技能说明...
+`}
+            </pre>
+            
+            <h3 className="text-sm font-medium text-gray-900 mb-2">目录结构</h3>
+            <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto mb-4">
+{`my-skill/
+├── SKILL.md           # 主指令（必需）
+├── template.md        # 模板，供 AI 填充
+├── examples/         # 示例输出
+│   └── sample.md
+└── scripts/          # 可执行的脚本
+    └── validate.sh`}
+            </pre>
+            
+            <h3 className="text-sm font-medium text-gray-900 mb-2">Frontmatter 字段</h3>
+            <ul className="list-disc list-inside text-gray-600 space-y-1 ml-2 mb-4">
+              <li><strong>name</strong> - 技能名称，使用 /name 调用</li>
+              <li><strong>description</strong> - 描述，帮助 AI 决定何时自动加载</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-base font-bold text-gray-900 mb-3">Skill 存储位置</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-gray-600">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left py-2">位置</th>
+                    <th className="text-left py-2">路径</th>
+                    <th className="text-left py-2">适用范围</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b">
+                    <td className="py-2">Personal</td>
+                    <td className="py-2 font-mono">~/.claude/skills/&lt;skill-name&gt;/</td>
+                    <td className="py-2">所有项目</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="py-2">Project</td>
+                    <td className="py-2 font-mono">.claude/skills/&lt;skill-name&gt;/</td>
+                    <td className="py-2">当前项目</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2">Plugin</td>
+                    <td className="py-2 font-mono">&lt;plugin&gt;/skills/&lt;skill-name&gt;/</td>
+                    <td className="py-2">插件启用范围</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-base font-bold text-gray-900 mb-3">调用方式</h2>
+            <div className="space-y-2 text-gray-600">
+              <p>1. <strong>自动调用</strong> - 当需求匹配 description 时，AI 自动加载</p>
+              <p>2. <strong>手动调用</strong> - 使用 /skill-name 命令</p>
+            </div>
+          </section>
+
+          <section>
             <h2 className="text-base font-bold text-gray-900 mb-3">Skill 是怎么工作的？</h2>
             <div className="space-y-1 text-gray-600">
               <p>1. <strong>定义</strong>：每个 Skill 通过 SKILL.md 描述自己的功能、适用场景、调用方式</p>
               <p>2. <strong>触发</strong>：当用户需求匹配 Skill 的描述时，AI Agent 自动调用对应 Skill</p>
               <p>3. <strong>执行</strong>：Skill 执行预定义的操作（调用 API、运行命令等）</p>
               <p>4. <strong>返回</strong>：结果返回给 AI Agent，再呈现给用户</p>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-base font-bold text-gray-900 mb-3">Skill 的结构</h2>
-            <div className="space-y-2 text-gray-600">
-              <p>Skill 由 SKILL.md 文件定义，包含以下部分：</p>
-              <ul className="list-disc list-inside space-y-1 ml-2">
-                <li><strong>name</strong>：Skill 名称（英文）</li>
-                <li><strong>description</strong>：Skill 描述，说明功能和适用场景</li>
-                <li><strong>metadata</strong>：元数据配置</li>
-              </ul>
-              <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-sm overflow-x-auto">
-{`---
-name: weather
-description: "获取天气信息"
-metadata:
-  openclaw:
-    emoji: "🌤️"
-    requires:
-      bins: [curl]
----`}
-              </pre>
-              <p className="mt-2">metadata.openclaw 包含：</p>
-              <ul className="list-disc list-inside space-y-1 ml-2">
-                <li><strong>emoji</strong>：显示图标</li>
-                <li><strong>requires.env</strong>：需要的环境变量（如 API Key）</li>
-                <li><strong>requires.bins</strong>：需要的命令行工具</li>
-                <li><strong>requires.model</strong>：需要的 LLM 模型（可选）</li>
-              </ul>
             </div>
           </section>
 
