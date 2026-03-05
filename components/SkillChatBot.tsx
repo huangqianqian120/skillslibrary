@@ -10,7 +10,7 @@ const MINIMAX_API_KEY = 'sk-api-cTF4bf6oWEiSamowl898uwrEgm2-0dlrWsyIE9zakzQt3HbT
 const MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
 
 // 构建 system prompt
-const buildSystemPrompt = () => {
+const buildSystemPrompt = (history: Message[]) => {
   const skillsList = skills.map(s => 
     `- ${s.id}: ${s.description?.slice(0, 100) || '无描述'} (分类: ${s.category})`
   ).join('\n')
@@ -34,46 +34,85 @@ ${skillsList}
 如果找不到合适的，如实告诉用户。`
 }
 
+// 关键词搜索 fallback
+const searchSkills = (query: string) => {
+  const q = query.toLowerCase()
+  const keywords: Record<string, string[]> = {
+    image: ['image', 'img', '图片', '画', '生成图', 'design', '作图'],
+    video: ['video', '视频', '剪辑'],
+    writing: ['writing', '写作', '写', '文案', '写文章'],
+    marketing: ['marketing', '营销', '推广', 'seo', '增长'],
+    search: ['search', '搜索', 'tavily', '搜索'],
+    development: ['dev', '开发', '编程', 'code', 'frontend', 'web', '前端'],
+    automation: ['automation', '自动化', '小红书'],
+    security: ['security', '安全', '审计'],
+    pdf: ['pdf', '文档', 'pdf'],
+    weather: ['weather', '天气'],
+    notes: ['notes', '笔记', 'notion'],
+    news: ['news', '新闻', '资讯'],
+    business: ['business', '商业', '创业'],
+  }
+  
+  let results = skills.filter(s => 
+    s.name.toLowerCase().includes(q) || 
+    (s.description && s.description.toLowerCase().includes(q))
+  )
+  
+  for (const [cat, kws] of Object.entries(keywords)) {
+    if (kws.some(k => q.includes(k))) {
+      const found = skills.filter(s => s.category.toLowerCase().includes(cat))
+      results = [...results, ...found]
+    }
+  }
+  
+  const unique = results.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i)
+  return unique.slice(0, 6)
+}
+
 export function SkillChatBot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'bot', content: '你好！我是 Skills 助手🤖\n\n可以告诉我你想要什么功能，比如："帮我找个做图的skill"、"有没有SEO相关的"、"我想做自动化工作流"等，我会帮你找到合适的技能。' }
+    { role: 'bot', content: '你好！我是 Skills 助手🤖 可以帮你找到合适的技能。比如："帮我找个做图的skill"、"有没有SEO相关的"' }
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // 自动滚动到底部
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
   // 调用 MiniMax API
-  const callLLM = async (userMessage: string): Promise<string> => {
-    const response = await fetch(MINIMAX_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${MINIMAX_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'MiniMax-M2.1',
-        messages: [
-          { role: 'system', content: buildSystemPrompt() },
-          ...messages.map(m => ({ role: m.role, content: m.content })),
-          { role: 'user', content: userMessage }
-        ],
-        temperature: 0.7,
-        max_tokens: 500
+  const callLLM = async (userMessage: string): Promise<string | null> => {
+    try {
+      const response = await fetch(MINIMAX_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${MINIMAX_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'MiniMax-M2.1',
+          messages: [
+            { role: 'system', content: buildSystemPrompt(messages) },
+            { role: 'user', content: userMessage }
+          ],
+          temperature: 0.7,
+          max_tokens: 500
+        })
       })
-    })
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`)
+      if (!response.ok) {
+        console.error('API error:', response.status)
+        return null
+      }
+
+      const data = await response.json()
+      return data.choices?.[0]?.message?.content || null
+    } catch (error) {
+      console.error('LLM error:', error)
+      return null
     }
-
-    const data = await response.json()
-    return data.choices?.[0]?.message?.content || '抱歉，我暂时无法回答。请稍后重试。'
   }
 
   const handleSend = async () => {
@@ -84,18 +123,26 @@ export function SkillChatBot() {
     setInput('')
     setIsLoading(true)
     
-    try {
-      const reply = await callLLM(input)
+    // 先尝试 LLM
+    const llmReply = await callLLM(input)
+    
+    if (llmReply) {
+      setMessages(prev => [...prev, { role: 'bot', content: llmReply }])
+    } else {
+      // LLM 失败，用关键词搜索 fallback
+      const results = searchSkills(input)
+      let reply: string
+      if (results.length === 0) {
+        reply = '没找到匹配的技能。可以试试其他关键词，比如："图片生成"、"SEO"、"营销"、"开发"等。'
+      } else {
+        reply = `找到 ${results.length} 个相关技能：\n\n`
+        reply += results.map(s => `• ${s.name}\n  ${(s.description || '').slice(0, 60)}...`).join('\n\n')
+        reply += '\n\n点击首页搜索或访问 /skill/[id] 查看详情'
+      }
       setMessages(prev => [...prev, { role: 'bot', content: reply }])
-    } catch (error) {
-      console.error('LLM error:', error)
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        content: '调用 AI 服务出错啦😢 请稍后重试，或者换个方式描述你的需求？' 
-      }])
-    } finally {
-      setIsLoading(false)
     }
+    
+    setIsLoading(false)
   }
 
   return (
@@ -109,13 +156,12 @@ export function SkillChatBot() {
           width: 56,
           height: 56,
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: '#111',
           color: '#fff',
           border: 'none',
           zIndex: 50,
           cursor: 'pointer',
           fontSize: 24,
-          boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -129,65 +175,47 @@ export function SkillChatBot() {
           position: 'fixed',
           bottom: 100,
           right: 24,
-          width: 380,
-          height: 520,
+          width: 340,
+          height: 420,
           background: '#fff',
-          borderRadius: 16,
+          borderRadius: 12,
           border: '1px solid #eee',
           padding: 16,
           zIndex: 50,
-          boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
           display: 'flex',
           flexDirection: 'column'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-            <span style={{ fontSize: 28 }}>🤖</span>
-            <div>
-              <h3 style={{ fontWeight: 600, fontSize: 15, margin: 0 }}>Skills 助手</h3>
-              <p style={{ fontSize: 11, color: '#666', margin: 0 }}>AI 驱动 · 即时响应</p>
-            </div>
-          </div>
+          <h3 style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 4 }}>Skills 助手</h3>
+          <p style={{ fontSize: 12, color: '#666', marginBottom: 12 }}>帮你找到合适的技能</p>
           
           <div style={{ 
             flex: 1, 
             overflowY: 'auto', 
-            marginBottom: 12,
-            padding: '8px 0',
-            borderTop: '1px solid #f0f0f0',
-            borderBottom: '1px solid #f0f0f0'
+            marginBottom: 12 
           }}>
             {messages.map((m, i) => (
               <div key={i} style={{ 
                 textAlign: m.role === 'user' ? 'right' : 'left',
-                marginBottom: 10,
-                display: 'flex',
-                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-                alignItems: 'flex-end',
-                gap: 8
+                marginBottom: 8
               }}>
-                {m.role === 'bot' && <span style={{ fontSize: 20 }}>🤖</span>}
                 <span style={{
                   display: 'inline-block',
-                  padding: '10px 14px',
-                  borderRadius: 12,
+                  padding: '8px 12px',
+                  borderRadius: 8,
                   fontSize: 13,
-                  background: m.role === 'user' 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-                    : '#f5f5f5',
+                  background: m.role === 'user' ? '#111' : '#f5f5f5',
                   color: m.role === 'user' ? '#fff' : '#333',
-                  maxWidth: '75%',
-                  whiteSpace: 'pre-wrap',
-                  lineHeight: 1.5
+                  maxWidth: '80%',
+                  whiteSpace: 'pre-wrap'
                 }}>
                   {m.content}
                 </span>
-                {m.role === 'user' && <span style={{ fontSize: 20 }}>👤</span>}
               </div>
             ))}
             {isLoading && (
-              <div style={{ textAlign: 'left', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 20 }}>🤖</span>
-                <span style={{ color: '#999', fontSize: 12 }}>AI 思考中...</span>
+              <div style={{ fontSize: 12, color: '#999', padding: '4px 0' }}>
+                思考中...
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -202,28 +230,24 @@ export function SkillChatBot() {
               disabled={isLoading}
               style={{
                 flex: 1,
-                padding: '12px 14px',
+                padding: '10px 12px',
                 border: '1px solid #ddd',
-                borderRadius: 10,
+                borderRadius: 8,
                 fontSize: 13,
-                outline: 'none',
-                background: isLoading ? '#f9f9f9' : '#fff'
+                outline: 'none'
               }}
             />
             <button
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
               style={{
-                padding: '10px 18px',
-                background: isLoading || !input.trim() 
-                  ? '#ccc' 
-                  : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '10px 16px',
+                background: isLoading || !input.trim() ? '#ccc' : '#111',
                 color: '#fff',
                 border: 'none',
-                borderRadius: 10,
+                borderRadius: 8,
                 cursor: isLoading ? 'default' : 'pointer',
-                fontSize: 13,
-                fontWeight: 500
+                fontSize: 13
               }}
             >
               发送
