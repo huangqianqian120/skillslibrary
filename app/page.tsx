@@ -402,7 +402,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 gap-3">
                 {paginatedSkills.map(skill => (
-                  <SkillCard key={skill.id} skill={skill} />
+                  <SkillCard key={skill.id} skill={skill} lang={lang} />
                 ))}
               </div>
               
@@ -450,9 +450,12 @@ export default function Home() {
   )
 }
 
-function SkillCard({ skill }: { skill: typeof skills[0] }) {
+function SkillCard({ skill, lang }: { skill: typeof skills[0], lang: Language }) {
+  const name = typeof skill.name === 'string' ? skill.name : (lang === 'zh' ? skill.name.zh : skill.name.en)
+  const description = typeof skill.description === 'string' ? skill.description : (lang === 'zh' ? skill.description.zh : skill.description.en)
+  
   return (
-    <a
+    <Link
       href={`/skill/${skill.id}`}
       className="group block p-3 sm:p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50/50 transition-all duration-200"
     >
@@ -460,15 +463,15 @@ function SkillCard({ skill }: { skill: typeof skills[0] }) {
         {/* Icon */}
         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition-colors">
           <span className="text-gray-600 text-xs sm:text-sm font-medium">
-                        {(typeof skill.name === 'string' ? skill.name : (lang === 'zh' ? skill.name.zh : skill.name.en)).charAt(0).toUpperCase()}
-                      </span>
+            {name.charAt(0).toUpperCase()}
+          </span>
         </div>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <h3 className="text-sm font-medium text-gray-900 truncate group-hover:text-gray-700 transition-colors">
-              {skill.name}
+              {name}
             </h3>
             <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 text-xs text-gray-400 bg-gray-100 rounded-full flex-shrink-0">
               {skill.category}
@@ -476,7 +479,7 @@ function SkillCard({ skill }: { skill: typeof skills[0] }) {
           </div>
           
           <p className="text-xs text-gray-400 mt-0.5 line-clamp-1 hidden sm:block">
-            {skill.description}
+            {description}
           </p>
         </div>
 
@@ -485,6 +488,6 @@ function SkillCard({ skill }: { skill: typeof skills[0] }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
         </svg>
       </div>
-    </a>
+    </Link>
   )
 }
