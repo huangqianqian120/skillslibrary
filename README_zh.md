@@ -6,91 +6,104 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-OpenClaw%20%7C%20Claude%20Code%20%7C%20Codex-purple?style=for-the-badge)
 
-# 🚀 50+ 开箱即用的 AI Agent 技能
+# 🚀 Agent Skills 市场
 
-[🌐 在线演示](https://www.skillslibrary.fun) · [📖 文档](https://github.com/huangqianqian120/skillslibrary/wiki) · [🐛 问题反馈](https://github.com/huangqianqian120/skillslibrary/issues) · [⭐ Star](https://github.com/huangqianqian120/skillslibrary)
+[🌐 在线演示](https://www.skillslibrary.fun) · [📖 文档](https://www.skillslibrary.fun/docs)
 
-**让您的 AI Agent 瞬间获得超能力！**
-
-[(English)](./README) | [中文](./README_zh.md)
+**基于开放的 SKILL.md 生态系统的 Agent Skills 市场**
 
 </div>
 
 ---
 
-## ✨ 为什么用它？
+## 什么是 Agent Skills？
 
-| 传统方式 | 使用技能库 |
-|---------|-----------|
-| 从零写提示词 | 直接选用现成技能 |
-| 1 个 Agent = 1 种能力 | 1 个 Agent = 50+ 种能力 |
-| 需要数周开发 | 分钟级快速上手 |
+Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 Anthropic 将其作为开放标准发布，OpenAI 也在 Codex CLI 和 ChatGPT 中采用了相同格式。
 
-## 📦 包含什么？
+每个 Skill 由包含指令的 SKILL.md 文件以及可选的脚本和模板组成。AI 会根据上下文自主决定何时使用它们。
 
-### 🎯 按类别
+## 特性
 
-| 类别 | 技能 |
+- 🤖 **多平台支持** - OpenClaw, Claude Code, Codex 等
+- 📦 **开箱即用** - 复制即可使用
+- 🌍 **开放生态** - 基于 SKILL.md 开放标准
+- 🔄 **自动同步** - 从 GitHub 发现开源 Skills
+- ⚡ **CLI 工具** - 终端直接搜索和安装 Skills
+- 💬 **AI 助手** - 智能推荐合适的 Skills
+
+## 分类
+
+| 分类 | 说明 |
 |------|------|
-| **营销** | copywriting, seo-audit, marketing-ideas, marketing-psychology, ab-test-setup, analytics-tracking, content-strategy |
-| **开发** | web, website, frontend, html, http-retry, firecrawl |
-| **研究** | ai-news-aggregator, business-news-aggregator, competitor-tracker, document-summarizer, tavily, user-research |
-| **产品** | product-strategy, growth, entrepreneurship, persona-builder |
-| **自动化** | xiaohongshu-automation, skills-library |
+| 💻 开发者 | 编程、调试、发布 |
+| ✍️ 写作者 | 写作、编辑、发布 |
+| 📋 效率党 | 任务、笔记、提醒 |
+| 🎨 媒体创作 | 图片、音频、视频 |
+| 👀 监控追踪 | 追踪更新和动态 |
+| 💼 商业 | 商业和营销 |
 
-### 🔥 热门技能
+## 快速开始
 
-- **copywriting** - 营销文案写作
-- **seo-audit** - 技术 SEO 审计
-- **marketing-ideas** - 139 个增长策略
-- **ai-news-aggregator** - 每日 AI 新闻简报
-- **competitor-tracker** - 竞品动态追踪
-- **growth** - 产品增长与 PMF
+### 在线使用
 
-## 🚀 快速开始
+访问 [https://www.skillslibrary.fun](https://www.skillslibrary.fun) 即可在线浏览和安装 Skills。
+
+### CLI 工具
 
 ```bash
-# 克隆仓库
+# 安装 CLI
+npm i -g skills-cli
+
+# 或从源码运行
 git clone https://github.com/huangqianqian120/skillslibrary.git
+cd skillslibrary/cli
+npm install
+node bin/skills.js --help
 
-# 访问在线演示
-open https://www.skillslibrary.fun
+# 常用命令
+skills list                    # 浏览所有 Skills
+skills list --category AI     # 按分类筛选
+skills search "legal"         # 搜索
+skills install ab-test-setup  # 安装
+skills uninstall ab-test-setup # 卸载
+```
 
-# 本地运行
+### 本地运行网站
+
+```bash
+git clone https://github.com/huangqianqian120/skillslibrary.git
 cd skillslibrary
 npm install
 npm run dev
 ```
 
-## 📖 如何使用
+## 创建 Skill
 
-1. **浏览** - 访问 [skillslibrary.fun](https://www.skillslibrary.fun)
-2. **搜索** - 按类别或关键词查找技能
-3. **复制** - 一键复制技能到您的 Agent 项目
-4. **定制** - 根据需求调整
+两种方式创建新 Skill：
 
-## 🤝 贡献代码
+1. **描述需求 AI 生成** - 点击「创建 Skill」按钮
+2. **导入工作流 JSON** - 上传 n8n/Dify/LangChain 工作流
 
-想添加自己的技能？查看 [CONTRIBUTING.md](./CONTRIBUTING.md)！
+## 项目结构
 
-```markdown
----
-name: my-awesome-skill
-description: 技能描述
----
-# 我的酷炫技能
+```
+skillslibrary/
+├── app/           # Next.js 网站
+├── data/          # Skills 注册数据
+├── skills/        # Skills 源文件
+└── cli/           # CLI 工具
 ```
 
-## ⭐ 支持我们
+## License
 
-觉得有用的话，给我们点个 ⭐ 吧！
+MIT
 
 ---
 
 <div align="center">
 
-**由 ❤️ [Qianqian](https://github.com/huangqianqian120) 构建**
+**用 ❤️ 构建**
 
-[🌐 网站](https://www.skillslibrary.fun) · [🐙 GitHub](https://github.com/huangqianqian120) · [💬 讨论](https://github.com/huangqianqian120/skillslibrary/discussions)
+[🌐 网站](https://www.skillslibrary.fun) · [🐙 GitHub](https://github.com/huangqianqian120)
 
 </div>

@@ -28,6 +28,8 @@ Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 An
 - 📦 **开箱即用** - 复制即可使用
 - 🌍 **开放生态** - 基于 SKILL.md 开放标准
 - 🔄 **自动同步** - 从 GitHub 发现开源 Skills
+- ⚡ **CLI 工具** - 终端直接搜索和安装 Skills
+- 💬 **AI 助手** - 智能推荐合适的 Skills
 
 ## 分类
 
@@ -42,11 +44,33 @@ Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 An
 
 ## 快速开始
 
-```bash
-# 访问在线版
-open https://www.skillslibrary.fun
+### 在线使用
 
-# 或本地运行
+访问 [https://www.skillslibrary.fun](https://www.skillslibrary.fun) 即可在线浏览和安装 Skills。
+
+### CLI 工具
+
+```bash
+# 安装 CLI
+npm i -g skills-cli
+
+# 或从源码运行
+git clone https://github.com/huangqianqian120/skillslibrary.git
+cd skillslibrary/cli
+npm install
+node bin/skills.js --help
+
+# 常用命令
+skills list                    # 浏览所有 Skills
+skills list --category AI     # 按分类筛选
+skills search "legal"         # 搜索
+skills install ab-test-setup  # 安装
+skills uninstall ab-test-setup # 卸载
+```
+
+### 本地运行网站
+
+```bash
 git clone https://github.com/huangqianqian120/skillslibrary.git
 cd skillslibrary
 npm install
@@ -59,6 +83,16 @@ npm run dev
 
 1. **描述需求 AI 生成** - 点击「创建 Skill」按钮
 2. **导入工作流 JSON** - 上传 n8n/Dify/LangChain 工作流
+
+## 项目结构
+
+```
+skillslibrary/
+├── app/           # Next.js 网站
+├── data/          # Skills 注册数据
+├── skills/        # Skills 源文件
+└── cli/           # CLI 工具
+```
 
 ## License
 
