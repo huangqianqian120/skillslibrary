@@ -124,16 +124,26 @@ export default function Home() {
     // Filter by search (fuzzy search)
     if (search) {
       const searchLower = search.toLowerCase()
-      result = result.filter(skill =>
-        skill.name.toLowerCase().includes(searchLower) ||
-        skill.description.toLowerCase().includes(searchLower) ||
+      const getStringForSearch = (field: string | { en: string; zh: string }) => {
+        if (typeof field === 'string') {
+          return field.toLowerCase();
+        }
+        return `${field.en.toLowerCase()} ${field.zh.toLowerCase()}`;
+      };
+
+      result = result.filter(skill => {
+        const nameForSearch = getStringForSearch(skill.name);
+        const descriptionForSearch = getStringForSearch(skill.description);
+
+        return nameForSearch.includes(searchLower) ||
+        descriptionForSearch.includes(searchLower) ||
         (skill.tags && skill.tags.some((tag: string) => tag.toLowerCase().includes(searchLower))) ||
         // Partial match - split search terms
         searchLower.split(' ').every(term => 
-          skill.name.toLowerCase().includes(term) ||
-          skill.description.toLowerCase().includes(term)
+          nameForSearch.includes(term) ||
+          descriptionForSearch.includes(term)
         )
-      )
+      })
     }
 
     return result

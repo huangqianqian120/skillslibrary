@@ -33,7 +33,7 @@ export default function DocsPage() {
       <div className="max-w-4xl mx-auto px-4 py-6">
         <BackButton />
         
-        <h1 className="text-2xl font-bold text-gray-900 mt-6 mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mt-6 mb-8">
           Skills Library 文档
         </h1>
 

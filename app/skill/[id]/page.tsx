@@ -11,8 +11,7 @@ import BackButton from '@/app/components/BackButton'
 const translations = {
   en: {
     backToLibrary: 'Back to Library',
-    copyDescription: 'Copy Description',
-    copySkillId: 'Copy Skill ID',
+
     viewOnGitHub: 'View on GitHub',
     downloadSkill: 'Copy Link',
     skillsInCategory: 'skills in this category',
@@ -25,8 +24,7 @@ const translations = {
   },
   zh: {
     backToLibrary: '返回技能库',
-    copyDescription: '复制描述',
-    copySkillId: '复制技能 ID',
+
     viewOnGitHub: '在 GitHub 查看',
     downloadSkill: '复制链接',
     skillsInCategory: '个同类技能',
@@ -125,7 +123,7 @@ export default function SkillPage() {
 
             {/* Title & Meta */}
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl sm:text-3xl font-medium text-gray-900">{skill.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-medium text-gray-900">{skill.name}</h1>
               <div className="flex items-center gap-2 sm:gap-3 mt-2 sm:mt-3 flex-wrap">
                 <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm text-gray-500 bg-gray-100 rounded-full">
                   {skill.category}
@@ -246,20 +244,7 @@ export default function SkillPage() {
               <span className="hidden sm:inline">GitHub</span>
               <span className="sm:hidden">代码</span>
             </a>
-            <button
-              onClick={() => navigator.clipboard.writeText(skill.description)}
-              className="px-3 sm:px-5 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-            >
-              <span className="hidden sm:inline">{t('copyDescription', lang)}</span>
-              <span className="sm:hidden">描述</span>
-            </button>
-            <button
-              onClick={() => navigator.clipboard.writeText(skill.id)}
-              className="px-3 sm:px-5 py-2 sm:py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
-            >
-              <span className="hidden sm:inline">{t('copySkillId', lang)}</span>
-              <span className="sm:hidden">ID</span>
-            </button>
+
           </div>
 
           {/* Divider */}
