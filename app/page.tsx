@@ -103,7 +103,7 @@ export default function Home() {
     const [selectedScene, setSelectedScene] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const ITEMS_PER_PAGE = 20
+  const ITEMS_PER_PAGE = 10
 
   const filteredSkills = useMemo(() => {
     let result = skills
