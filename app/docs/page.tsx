@@ -39,6 +39,51 @@ export default function DocsPage() {
 
         <div className="space-y-8 text-sm">
           <section>
+            <h2 className="text-base font-bold text-gray-900 mb-3">CLI 工具使用</h2>
+            <p className="text-gray-600 mb-3">skills-cli 是一个命令行工具，让你可以在终端中快速查找、安装和管理 Skills。</p>
+
+            <h3 className="text-sm font-medium text-gray-900 mb-2">安装</h3>
+            <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto mb-4">
+{`# 通过 npm 全局安装
+npm i -g skills-cli`}
+            </pre>
+
+            <h3 className="text-sm font-medium text-gray-900 mb-2">核心命令</h3>
+            <div className="space-y-4">
+              <div>
+                <p className="font-mono text-xs text-gray-800">skills list</p>
+                <p className="text-gray-600 mt-1">浏览所有可用的 Skills，按分类展示。</p>
+                <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">{`# 按分类筛选，例如只看 AI 类的 Skills
+skills list --category AI`}</pre>
+              </div>
+              <div>
+                <p className="font-mono text-xs text-gray-800">skills search &lt;关键词&gt;</p>
+                <p className="text-gray-600 mt-1">根据名称或描述搜索相关的 Skills。</p>
+                <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">{`# 搜索和法律相关的 Skills
+skills search "legal"`}</pre>
+              </div>
+              <div>
+                <p className="font-mono text-xs text-gray-800">skills install &lt;skill-id&gt;</p>
+                <p className="text-gray-600 mt-1">将指定的 Skill 安装到本地。默认安装路径为 <code className="text-xs bg-gray-100 p-1 rounded">~/.openclaw/skills</code>。</p>
+                <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">{`# 安装 A/B 测试设置 Skill
+skills install ab-test-setup`}</pre>
+              </div>
+              <div>
+                <p className="font-mono text-xs text-gray-800">skills uninstall &lt;skill-id&gt;</p>
+                <p className="text-gray-600 mt-1">从本地卸载一个已安装的 Skill。</p>
+                <pre className="mt-2 bg-gray-900 text-gray-100 p-3 rounded text-xs overflow-x-auto">{`# 卸载 A/B 测试设置 Skill
+skills uninstall ab-test-setup`}</pre>
+              </div>
+            </div>
+
+            <h3 className="text-sm font-medium text-gray-900 mt-6 mb-2">故障排查</h3>
+            <div className="border rounded p-3">
+              <p className="font-medium text-gray-800">安装时遇到 EACCES: permission denied 错误？</p>
+              <p className="text-gray-600 mt-1">这是因为在 macOS 或 Linux 系统下，npm 全局安装需要管理员权限。我们推荐您<a href="https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">更改 npm 的全局安装目录</a>以彻底解决此问题。或者，您也可以使用 <code className="text-xs bg-gray-100 p-1 rounded">sudo npm i -g skills-cli</code> 以管理员身份运行（此方法不推荐）。</p>
+            </div>
+          </section>
+
+          <section>
             <h2 className="text-base font-bold text-gray-900 mb-3">什么是 Skill</h2>
             <p className="text-gray-600 mb-2">
               Agent Skills 是扩展 AI 编程助手功能的模块化能力。每个 Skill 由一个包含指令的 SKILL.md 文件以及可选的脚本和模板组成。
