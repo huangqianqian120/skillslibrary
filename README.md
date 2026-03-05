@@ -54,6 +54,8 @@ Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 An
 # 安装 CLI
 npm i -g skills-cli
 
+> **📝 提示：** 如果您在 macOS 或 Linux 系统下安装时遇到 `EACCES: permission denied` 权限错误，这是因为 npm 默认需要管理员权限来安装全局包。我们推荐您[更改 npm 的全局安装目录](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)以彻底解决此问题。或者，您也可以使用 `sudo npm i -g skills-cli` 以管理员身份运行（此方法不推荐）。
+
 # 或从源码运行
 git clone https://github.com/huangqianqian120/skillslibrary.git
 cd skillslibrary/cli
