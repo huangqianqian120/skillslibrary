@@ -460,8 +460,8 @@ function SkillCard({ skill }: { skill: typeof skills[0] }) {
         {/* Icon */}
         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition-colors">
           <span className="text-gray-600 text-xs sm:text-sm font-medium">
-            {skill.name.charAt(0).toUpperCase()}
-          </span>
+                        {(typeof skill.name === 'string' ? skill.name : skill.name[lang]).charAt(0).toUpperCase()}
+                      </span>
         </div>
 
         {/* Content */}
