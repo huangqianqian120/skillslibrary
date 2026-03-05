@@ -1,4 +1,4 @@
-# 🤖 AI Agent 技能库
+# SkillsLibrary
 
 <div align="center">
 
@@ -6,7 +6,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-OpenClaw%20%7C%20Claude%20Code%20%7C%20Codex-purple?style=for-the-badge)
 
-# 🚀 Agent Skills 市场
+# 技能工坊
 
 [🌐 在线演示](https://www.skillslibrary.fun) · [📖 文档](https://www.skillslibrary.fun/docs)
 

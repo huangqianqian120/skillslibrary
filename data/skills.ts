@@ -1,7 +1,7 @@
 export interface Skill {
   id: string
-  name: string
-  description: string
+  name: string | { en: string; zh: string }
+  description: string | { en: string; zh: string }
   emoji?: string
   category: string
   tags?: string[]
@@ -23,7 +23,7 @@ export const tagsConfig = {
 }
 
 export const skills: Skill[] = [
-{ id: 'ab-test-setup', name: 'ab-test-setup', description: 'When the user wants to plan, design, or implement an A/B test or experiment. Also use when the user ', category: 'Business', tags: [], author: 'Local', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
+{ id: 'ab-test-setup', name: { en: 'A/B Test Setup', zh: 'A/B 测试设置' }, description: { en: 'When the user wants to plan, design, or implement an A/B test or experiment.', zh: '当用户想要计划、设计或实施 A/B 测试或实验时使用。' }, category: 'Business', tags: [], author: 'Local', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
   lastUpdated: '2026-03-02' },
 { id: 'ai-news-aggregator', name: 'ai-news-aggregator', description: 'Aggregate and summarize AI/LLM/Agent news from multiple sources. Use when user needs latest AI news,', category: 'AI', tags: [], author: 'Local', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
   lastUpdated: '2026-03-02' },

@@ -75,7 +75,8 @@ export default function SkillPage() {
     )
   }
 
-  const colorIndex = skill.name.charCodeAt(0) % colorOptions.length
+  const nameString = typeof skill.name === 'string' ? skill.name : skill.name.en;
+  const colorIndex = nameString.charCodeAt(0) % colorOptions.length;
   const categorySkills = skills.filter(s => s.category === skill.category)
   const relatedSkills = skills.filter(s => s.category === skill.category && s.id !== skill.id).slice(0, 4)
 
@@ -209,11 +210,9 @@ export default function SkillPage() {
             </div>
           </div>
 
-          {/* Description Card */}
-          <div className="border border-gray-100 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
-            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-              {skill.description}
-            </p>
+          {/* Description */}
+          <div className="prose prose-sm max-w-none text-gray-600">
+            <p>{typeof skill.description === 'string' ? skill.description : skill.description[lang]}</p>
           </div>
 
           {/* Actions */}
