@@ -65,7 +65,7 @@ export default function SkillPage() {
   const params = useParams()
   const id = params.id as string
   const skill = skills.find(s => s.id === id)
-  const [lang, setLang] = useState<Language>('en')
+  const [lang, setLang] = useState<Language>('zh')
 
   if (!skill) {
     return (

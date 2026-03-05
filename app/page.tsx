@@ -68,7 +68,7 @@ const translations = {
     close: 'Close',
   },
   zh: {
-    title: '技能库',
+    title: '技能工坊',
     search: '搜索...',
     all: '全部',
     results: '个结果',
@@ -97,7 +97,7 @@ function t(key: keyof typeof translations.en, lang: Language, params?: Record<st
 }
 
 export default function Home() {
-  const [lang, setLang] = useState<Language>('en')
+  const [lang, setLang] = useState<Language>('zh')
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
     const [selectedScene, setSelectedScene] = useState<string | null>(null)
