@@ -17,7 +17,10 @@ export interface Skill {
 export const categories = ['All', 'AI', 'Automation', 'Business', 'Communication', 'Data', 'Development', 'Lifestyle', 'Media', 'Productivity', 'Security']
 
 export const tagsConfig = {
-  New: { label: { en: 'New', zh: '🆕 新增' }
+  New: { label: { en: 'New', zh: '🆕 新增' }, color: 'bg-green-500' },
+  Popular: { label: { en: 'Popular', zh: '🔥 热门' }, color: 'bg-orange-500' },
+  Official: { label: { en: 'Official', zh: '✨ 官方' }, color: 'bg-blue-500' },
+}
 
 export const skills: Skill[] = [
 { id: 'ab-test-setup', name: 'ab-test-setup', description: 'When the user wants to plan, design, or implement an A/B test or experiment. Also use when the user ', category: 'Business', tags: [], author: 'Local', version: '1.0.0', installCount: 0, rating: 0, repoUrl: "https://github.com/huangqianqian120/skillslibrary/tree/main/skills",
