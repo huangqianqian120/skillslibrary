@@ -5,9 +5,8 @@ import { skills } from '@/data/skills'
 
 type Message = { role: 'user' | 'bot'; content: string }
 
-// MiniMax API 配置 - 从环境变量读取
-const MINIMAX_API_KEY = process.env.MINIMAX_API_KEY || ''
-const MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
+// MiniMax API - 通过后端 API 路由调用（避免暴露 key）
+const API_BASE = '/api/llm'
 
 // 构建 system prompt
 const buildSystemPrompt = (history: Message[]) => {
@@ -82,28 +81,17 @@ export function SkillChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
-  // 调用 MiniMax API
+  // 调用 LLM API（通过后端路由）
   const callLLM = async (userMessage: string): Promise<string | null> => {
-    // 没有配置 API key 时直接返回 null
-    if (!MINIMAX_API_KEY) {
-      return null
-    }
-    
     try {
-      const response = await fetch(MINIMAX_API_URL, {
+      const response = await fetch(API_BASE, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${MINIMAX_API_KEY}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'MiniMax-M2.1',
-          messages: [
-            { role: 'system', content: buildSystemPrompt(messages) },
-            { role: 'user', content: userMessage }
-          ],
-          temperature: 0.7,
-          max_tokens: 500
+          messages: [{ role: 'user', content: userMessage }],
+          system: buildSystemPrompt(messages)
         })
       })
 
