@@ -5,8 +5,8 @@ import { skills } from '@/data/skills'
 
 type Message = { role: 'user' | 'bot'; content: string }
 
-// MiniMax API 配置
-const MINIMAX_API_KEY = 'sk-api-cTF4bf6oWEiSamowl898uwrEgm2-0dlrWsyIE9zakzQt3HbT_giDSMiDPU8b5c1VqtxLft2ugnu2xCK1iGGDTUKuCd9r9tdbJ9gial3w47bNp_-BO5tDf-Q'
+// MiniMax API 配置 - 从环境变量读取
+const MINIMAX_API_KEY = process.env.MINIMAX_API_KEY || ''
 const MINIMAX_API_URL = 'https://api.minimax.chat/v1/text/chatcompletion_v2'
 
 // 构建 system prompt
@@ -84,6 +84,11 @@ export function SkillChatBot() {
 
   // 调用 MiniMax API
   const callLLM = async (userMessage: string): Promise<string | null> => {
+    // 没有配置 API key 时直接返回 null
+    if (!MINIMAX_API_KEY) {
+      return null
+    }
+    
     try {
       const response = await fetch(MINIMAX_API_URL, {
         method: 'POST',
