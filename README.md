@@ -1,4 +1,4 @@
-# 🤖 AI Agent Skills Library
+# Skills Library
 
 <div align="center">
 
@@ -6,7 +6,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-OpenClaw%20%7C%20Claude%20Code%20%7C%20Codex-purple?style=for-the-badge)
 
-# 🚀 Agent Skills Marketplace
+# 技能工坊
 
 [🌐 Live Demo](https://www.skillslibrary.fun) · [📖 Docs](https://www.skillslibrary.fun/docs)
 
@@ -18,9 +18,9 @@
 
 ## 什么是 Agent Skills？
 
-Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 Anthropic 将其作为开放标准发布，OpenAI 也在 Codex CLI 和 ChatGPT 中采用了相同格式。
+Agent Skills 是扩展 AI 编程助手功能的模块化能力。2025年12月 Anthropic 将其作为开放标准发布，OpenAI 也在 Codex CLI 、 ChatGPT 中采用了相同格式。
 
-每个 Skill 由包含指令的 SKILL.md 文件以及可选的脚本和模板组成。AI 会根据上下文自主决定何时使用它们。
+每个 Skill 由包含指令的 SKILL.md 文件以及可选的脚本和模板组成。Agent 会根据上下文自主决定何时使用它们。
 
 ## 特性
 
