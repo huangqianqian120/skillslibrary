@@ -12,21 +12,21 @@ const scenes = [
     name: { en: 'Developer', zh: '开发者' },
     icon: '💻',
     description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
-    skillIds: ['hello-world', 'skill-creator', 'hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills', 'mcp-builder', 'using-superpowers', 'subagent-driven-development', 'agent-tools', 'agent-browser', 'browser-use', 'systematic-debugging', 'vercel-react-best-practices', 'remotion-best-practices', 'vercel-composition-patterns', 'vercel-react-native-skills', 'supabase-postgres-best-practices', 'next-best-practices', 'frontend-design', 'tailwind-design-system', 'just-scrape'],
+    skillIds: ['hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills'],
   },
   {
     id: 'writer',
     name: { en: 'Writer', zh: '写作者' },
     icon: '✍️',
     description: { en: 'Write, edit, and publish', zh: '写作、编辑、发布' },
-    skillIds: ['notion', 'mimeng-writing', 'copywriting', 'brainstorming', 'writing-plans', 'executing-plans', 'copy-editing', 'content-strategy', 'content-strategy-new', 'document-summarizer'],
+    skillIds: ['notion', 'mimeng-writing', 'copywriting', 'content-strategy', 'document-summarizer'],
   },
   {
     id: 'organizer',
     name: { en: 'Organizer', zh: '效率党' },
     icon: '📋',
     description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
-    skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'us-gov-shutdown-tracker'],
+    skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship'],
   },
   
   {
@@ -34,21 +34,21 @@ const scenes = [
     name: { en: 'Media Creator', zh: '媒体创作' },
     icon: '🎨',
     description: { en: 'Images, audio, and video', zh: '图片、音频、视频' },
-    skillIds: ['nano-pdf', 'tavily', 'ai-news-aggregator', 'baoyu-cover-image', 'baoyu-comic', 'baoyu-infographic', 'canvas-design', 'ui-ux-pro-max', 'web-design-guidelines', 'social-content', 'pdf-op', 'pptx-op', 'docx-op', 'xlsx-op', 'baoyu-url-to-markdown', 'baoyu-markdown-to-html', 'baoyu-format-markdown'],
+    skillIds: ['nano-pdf', 'tavily', 'ai-news-aggregator'],
   },
   {
     id: 'monitor',
     name: { en: 'Monitor', zh: '监控追踪' },
     icon: '👀',
     description: { en: 'Track updates and feeds', zh: '追踪更新和动态' },
-    skillIds: ['weather', 'blogwatcher', 'tavily', 'competitor-tracker', 'business-news-aggregator', 'ai-news-aggregator', 'us-gov-shutdown-tracker'],
+    skillIds: ['weather', 'blogwatcher', 'tavily', 'competitor-tracker', 'business-news-aggregator', 'ai-news-aggregator'],
   },
   {
     id: 'business',
     name: { en: 'Business', zh: '商业' },
     icon: '💼',
     description: { en: 'Business and marketing', zh: '商业和营销' },
-    skillIds: ['marketing-ideas', 'marketing-psychology', 'content-strategy', 'content-strategy-new', 'copywriting', 'copywriting-new', 'growth', 'product-strategy', 'user-research', 'seo-audit', 'audit-website', 'programmatic-seo', 'pricing-strategy', 'product-marketing-context', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'ab-test-setup', 'location-advisor', 'mckinsey-consultant'],
+    skillIds: ['marketing-ideas', 'marketing-psychology', 'content-strategy', 'copywriting', 'growth', 'product-strategy', 'user-research', 'seo-audit', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'ab-test-setup', 'location-advisor', 'mckinsey-consultant'],
   },
 ]
 
@@ -242,6 +242,42 @@ export default function Home() {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {/* CLI Section */}
+          <section className="mb-10 sm:mb-12">
+            <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 sm:p-8 text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">⚡</span>
+                    <h2 className="text-xl sm:text-2xl font-bold">CLI 工具</h2>
+                  </div>
+                  <p className="text-gray-300 text-sm sm:text-base mb-4">
+                    {lang === 'zh' 
+                      ? '在终端里直接搜索和安装 Skills，无需打开浏览器'
+                      : 'Search and install Skills directly in terminal, no browser needed'}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <code className="bg-gray-700/50 px-3 py-1 rounded text-sm font-mono">npm i -g skills-cli</code>
+                    <a 
+                      href="https://github.com/huangqianqian120/skillslibrary/tree/main/cli" 
+                      target="_blank"
+                      className="bg-gray-700/50 hover:bg-gray-600/50 px-3 py-1 rounded text-sm transition-colors"
+                    >
+                      {lang === 'zh' ? '查看文档 →' : 'Docs →'}
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden sm:block">
+                  <div className="bg-gray-900/50 rounded-lg p-4 font-mono text-xs sm:text-sm">
+                    <div className="text-gray-400">$ skills search legal</div>
+                    <div className="text-blue-400">Found 1 skill(s):</div>
+                    <div className="text-green-400">→ openclaw-legal-skills</div>
+                    <div className="text-gray-500 mt-2">$ skills install openclaw-legal-skills</div>
+                    <div className="text-green-400">✅ Installed!</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           {/* Scenes Section - Horizontal scroll on mobile */}
           <section className="mb-8 sm:mb-10">
