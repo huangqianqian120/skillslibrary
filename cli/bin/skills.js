@@ -198,7 +198,22 @@ function installCommand(skillId, options) {
   const installPath = options.path || DEFAULT_INSTALL_PATH;
   
   console.log(chalk.blue.bold(`\n📦 Installing: ${skill.name}\n`));
-  console.log(chalk.gray('Category:'), skill.category);
+  console.log(chalk.gray('Category:'), skill.category || 'N/A');
+  
+  // 确定 clone 来源
+  let cloneUrl;
+  if (skill.repoUrl && skill.repoUrl.includes('skillslibrary')) {
+    // 在 skillslibrary 主仓库中
+    cloneUrl = skill.repoUrl.replace('tree/main', '').replace('tree/master', '') + '/skills/' + skill.id;
+  } else if (skill.repoUrl) {
+    // 外部仓库
+    cloneUrl = skill.repoUrl.replace('tree/main', '').replace('tree/master', '').replace('/skills', '');
+  } else {
+    // 没有 repoUrl，默认从 skillslibrary
+    cloneUrl = SKILLS_REPO + '/skills/' + skill.id;
+  }
+  
+  console.log(chalk.gray('Source:'), cloneUrl);
   console.log(chalk.gray('Install to:'), installPath);
   
   // 创建目录
@@ -210,18 +225,68 @@ function installCommand(skillId, options) {
   const skillPath = join(installPath, skill.id);
   
   if (existsSync(skillPath)) {
-    console.log(chalk.yellow(`⚠️  Skill already exists at: ${skillPath}`));
+    console.log(chalk.yellow(`\n⚠️  Skill already exists at: ${skillPath}`));
     if (!options.force) {
       console.log(chalk.gray('Use --force to overwrite'));
       return;
     }
   }
   
-  // 模拟安装（实际应该从 GitHub clone）
-  console.log(chalk.yellow('\n⚠️  Install from remote not implemented yet.'));
-  console.log(chalk.gray('Manual install:'));
-  console.log(chalk.cyan(`   git clone ${SKILLS_REPO}/skills/${skill.id} ${skillPath}`));
-  console.log(chalk.gray('\nOr visit:'), `https://skillslibrary.fun/skill/${skill.id}`);
+  // 尝试本地复制（开发时）或 git clone
+  const localSkillsPath = join(__dirname, '..', 'skills', skill.id);
+  
+  if (existsSync(localSkillsPath) || options.local) {
+    // 本地复制（开发模式）
+    if (!existsSync(localSkillsPath)) {
+      console.log(chalk.red('Skill not found in local directory!'));
+      return;
+    }
+    console.log(chalk.gray('\n📁 Copying from local...'));
+    try {
+      cpSync(localSkillsPath, skillPath, { recursive: true });
+      console.log(chalk.green('\n✅ Installed successfully!'));
+      console.log(chalk.gray('   Location:'), skillPath);
+    } catch (e) {
+      console.log(chalk.red('Failed to copy:', e.message));
+    }
+  } else {
+    // 远程 git clone
+    console.log(chalk.gray('\n⬇️  Cloning from remote...\n'));
+    
+    const { execSync } = require('child_process');
+    try {
+      execSync(`git clone "${cloneUrl}" "${skillPath}"`, { stdio: 'inherit' });
+      console.log(chalk.green('\n✅ Installed successfully!'));
+      console.log(chalk.gray('   Location:'), skillPath);
+    } catch (e) {
+      console.log(chalk.red('\n❌ Install failed!'));
+      console.log(chalk.gray('Try manually:'));
+      console.log(chalk.cyan(`   git clone ${cloneUrl} ${skillPath}`));
+    }
+  }
+}
+
+// uninstall 命令
+function uninstallCommand(skillId, options) {
+  const installPath = options.path || DEFAULT_INSTALL_PATH;
+  const skillPath = join(installPath, skillId);
+  
+  if (!existsSync(skillPath)) {
+    console.log(chalk.yellow(`Skill "${skillId}" not installed at: ${installPath}`));
+    return;
+  }
+  
+  console.log(chalk.blue.bold(`\n🗑️  Uninstalling: ${skillId}\n`));
+  console.log(chalk.gray('Location:'), skillPath);
+  
+  const { execSync } = require('child_process');
+  try {
+    // 使用 rm -rf 删除
+    execSync(`rm -rf "${skillPath}"`, { stdio: 'inherit' });
+    console.log(chalk.green('\n✅ Uninstalled successfully!'));
+  } catch (e) {
+    console.log(chalk.red('\n❌ Uninstall failed!'));
+  }
 }
 
 // sync 命令
@@ -262,11 +327,18 @@ program
   .description('Install a skill to local')
   .option('-p, --path <path>', 'Install path', DEFAULT_INSTALL_PATH)
   .option('-f, --force', 'Overwrite existing')
+  .option('-l, --local', 'Install from local skills (for development)')
   .action(installCommand);
 
 program
   .command('sync')
   .description('Sync skills data from remote')
   .action(syncCommand);
+
+program
+  .command('uninstall <skill-id>')
+  .description('Uninstall a skill from local')
+  .option('-p, --path <path>', 'Install path', DEFAULT_INSTALL_PATH)
+  .action(uninstallCommand);
 
 program.parse();
