@@ -3,6 +3,18 @@
 import { useState, useRef, useEffect } from 'react'
 import { skills } from '@/data/skills'
 
+const getTextValue = (value: string | { en: string; zh: string } | undefined) => {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  return value.zh || value.en
+}
+
+const getSearchValue = (value: string | { en: string; zh: string } | undefined) => {
+  if (!value) return ''
+  if (typeof value === 'string') return value.toLowerCase()
+  return `${value.en.toLowerCase()} ${value.zh.toLowerCase()}`
+}
+
 type Message = { role: 'user' | 'bot'; content: string }
 
 // MiniMax API - 通过后端 API 路由调用（避免暴露 key）
@@ -10,9 +22,10 @@ const API_BASE = '/api/llm'
 
 // 构建 system prompt
 const buildSystemPrompt = (history: Message[]) => {
-  const skillsList = skills.map(s => 
-    `- ${s.id}: ${s.description?.slice(0, 100) || '无描述'} (分类: ${s.category})`
-  ).join('\n')
+  const skillsList = skills.map(s => {
+    const description = getTextValue(s.description)
+    return `- ${s.id}: ${description.slice(0, 100) || '无描述'} (分类: ${s.category})`
+  }).join('\n')
   
   return `你是 Skills 助手，专门帮用户找到合适的 AI Agent Skills。
 
@@ -52,10 +65,11 @@ const searchSkills = (query: string) => {
     business: ['business', '商业', '创业'],
   }
   
-  let results = skills.filter(s => 
-    s.name.toLowerCase().includes(q) || 
-    (s.description && s.description.toLowerCase().includes(q))
-  )
+  let results = skills.filter(s => {
+    const name = getSearchValue(s.name)
+    const description = getSearchValue(s.description)
+    return name.includes(q) || description.includes(q)
+  })
   
   for (const [cat, kws] of Object.entries(keywords)) {
     if (kws.some(k => q.includes(k))) {
@@ -129,7 +143,11 @@ export function SkillChatBot() {
         reply = '没找到匹配的技能。可以试试其他关键词，比如："图片生成"、"SEO"、"营销"、"开发"等。'
       } else {
         reply = `找到 ${results.length} 个相关技能：\n\n`
-        reply += results.map(s => `• ${s.name}\n  ${(s.description || '').slice(0, 60)}...`).join('\n\n')
+        reply += results.map(s => {
+          const name = getTextValue(s.name)
+          const description = getTextValue(s.description)
+          return `• ${name}\n  ${description.slice(0, 60)}...`
+        }).join('\n\n')
         reply += '\n\n点击首页搜索或访问 /skill/[id] 查看详情'
       }
       setMessages(prev => [...prev, { role: 'bot', content: reply }])
