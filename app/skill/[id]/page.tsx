@@ -73,8 +73,10 @@ export default function SkillPage() {
     )
   }
 
-  const nameString = typeof skill.name === 'string' ? skill.name : skill.name.en;
-  const colorIndex = nameString.charCodeAt(0) % colorOptions.length;
+  const nameString = typeof skill.name === 'string' ? skill.name : skill.name.en
+  const displayName = typeof skill.name === 'string' ? skill.name : (lang === 'zh' ? skill.name.zh : skill.name.en)
+  const displayDescription = typeof skill.description === 'string' ? skill.description : (lang === 'zh' ? skill.description.zh : skill.description.en)
+  const colorIndex = nameString.charCodeAt(0) % colorOptions.length
   const categorySkills = skills.filter(s => s.category === skill.category)
   const relatedSkills = skills.filter(s => s.category === skill.category && s.id !== skill.id).slice(0, 4)
 
@@ -117,13 +119,13 @@ export default function SkillPage() {
             {/* Icon */}
             <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-xl sm:rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
               <span className="text-2xl sm:text-3xl font-medium text-gray-600">
-                {skill.name.charAt(0).toUpperCase()}
+                {displayName.charAt(0).toUpperCase()}
               </span>
             </div>
 
             {/* Title & Meta */}
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-medium text-gray-900">{skill.name}</h1>
+              <h1 className="text-xl sm:text-2xl font-medium text-gray-900">{displayName}</h1>
               <div className="flex items-center gap-2 sm:gap-3 mt-2 sm:mt-3 flex-wrap">
                 <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm text-gray-500 bg-gray-100 rounded-full">
                   {skill.category}
@@ -210,7 +212,7 @@ export default function SkillPage() {
 
           {/* Description */}
           <div className="prose prose-sm max-w-none text-gray-600">
-            <p>{typeof skill.description === 'string' ? skill.description : skill.description[lang]}</p>
+            <p>{displayDescription}</p>
           </div>
 
           {/* Actions */}
@@ -258,7 +260,7 @@ export default function SkillPage() {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {relatedSkills.map(related => (
-                  <RelatedCard key={related.id} skill={related} />
+                  <RelatedCard key={related.id} skill={related} lang={lang} />
                 ))}
               </div>
             </div>
@@ -300,7 +302,10 @@ export default function SkillPage() {
   )
 }
 
-function RelatedCard({ skill }: { skill: typeof skills[0] }) {
+function RelatedCard({ skill, lang }: { skill: typeof skills[0]; lang: Language }) {
+  const name = typeof skill.name === 'string' ? skill.name : (lang === 'zh' ? skill.name.zh : skill.name.en)
+  const description = typeof skill.description === 'string' ? skill.description : (lang === 'zh' ? skill.description.zh : skill.description.en)
+
   return (
     <Link
       href={`/skill/${skill.id}`}
@@ -308,14 +313,14 @@ function RelatedCard({ skill }: { skill: typeof skills[0] }) {
     >
       <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg sm:rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 group-hover:bg-gray-200 transition-colors">
         <span className="text-gray-600 text-base sm:text-lg font-medium">
-          {skill.name.charAt(0).toUpperCase()}
+          {name.charAt(0).toUpperCase()}
         </span>
       </div>
       <div className="flex-1 min-w-0">
         <h3 className="font-medium text-gray-900 group-hover:text-gray-700 transition-colors truncate text-sm sm:text-base">
-          {skill.name}
+          {name}
         </h3>
-        <p className="text-xs sm:text-sm text-gray-400 line-clamp-1">{skill.description}</p>
+        <p className="text-xs sm:text-sm text-gray-400 line-clamp-1">{description}</p>
       </div>
       <svg className="w-4 sm:w-5 h-4 sm:h-5 text-gray-300 group-hover:text-gray-400 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
