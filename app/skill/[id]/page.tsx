@@ -77,6 +77,41 @@ export default function SkillPage() {
   const displayName = typeof skill.name === 'string' ? skill.name : (lang === 'zh' ? skill.name.zh : skill.name.en)
   const displayDescription = typeof skill.description === 'string' ? skill.description : (lang === 'zh' ? skill.description.zh : skill.description.en)
   const colorIndex = nameString.charCodeAt(0) % colorOptions.length
+  const downloadSkill = async () => {
+    const baseUrl = 'https://raw.githubusercontent.com/huangqianqian120/skillslibrary/main/skills'
+    const candidates = [
+      `${baseUrl}/${skill.id}/SKILL.md`,
+      `${baseUrl}/${skill.id}/README.md`,
+    ]
+    let fileUrl: string | null = null
+
+    for (const url of candidates) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' })
+        if (response.ok) {
+          fileUrl = url
+          break
+        }
+      } catch {
+        continue
+      }
+    }
+
+    if (!fileUrl) {
+      const fallbackUrl = skill.repoUrl
+        ? `${skill.repoUrl}/${skill.id}`
+        : `https://github.com/huangqianqian120/skillslibrary/tree/main/skills/${skill.id}`
+      window.open(fallbackUrl, '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    const link = document.createElement('a')
+    link.href = fileUrl
+    link.download = fileUrl.endsWith('README.md') ? 'README.md' : 'SKILL.md'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
   const categorySkills = skills.filter(s => s.category === skill.category)
   const relatedSkills = skills.filter(s => s.category === skill.category && s.id !== skill.id).slice(0, 4)
 
@@ -211,7 +246,7 @@ export default function SkillPage() {
           </div>
 
           {/* Description */}
-          <div className="prose prose-sm max-w-none text-gray-600">
+          <div className="max-w-none text-gray-600 text-sm leading-6">
             <p>{displayDescription}</p>
           </div>
 
@@ -219,15 +254,7 @@ export default function SkillPage() {
           <div className="flex flex-wrap gap-2 sm:gap-3 mb-8 sm:mb-10">
             {/* Download Button - Direct download */}
             <button
-              onClick={() => {
-                const url = `https://raw.githubusercontent.com/huangqianqian120/skillslibrary/main/skills/${skill.id}/SKILL.md`
-                const link = document.createElement('a')
-                link.href = url
-                link.download = `SKILL.md`
-                document.body.appendChild(link)
-                link.click()
-                document.body.removeChild(link)
-              }}
+              onClick={downloadSkill}
               className="inline-flex items-center px-3 sm:px-4 py-2 sm:py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
             >
               <svg className="w-4 h-4 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
