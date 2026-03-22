@@ -12,7 +12,7 @@ const scenes = [
     name: { en: 'Developer', zh: '开发者' },
     icon: '💻',
     description: { en: 'Code, debug, and ship', zh: '编程、调试、发布' },
-    skillIds: ['hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills'],
+    skillIds: ['hello-world', 'frontend', 'healthcheck', 'ddg-web-search', 'firecrawl', 'html', 'http-retry', 'blogwatcher', 'web', 'website', 'location-advisor', 'mckinsey-consultant', 'skills-library', 'find-skills', 'wps-skills', 'infinite-dev-skill'],
   },
   {
     id: 'writer',
@@ -26,7 +26,7 @@ const scenes = [
     name: { en: 'Organizer', zh: '效率党' },
     icon: '📋',
     description: { en: 'Tasks, notes, and reminders', zh: '任务、笔记、提醒' },
-    skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship'],
+    skillIds: ['notion', 'analytics-tracking', 'ab-test-setup', 'product-strategy', 'growth', 'user-research', 'competitor-tracker', 'business-news-aggregator', 'entrepreneurship', 'wps-skills', 'ppt-agent-skill'],
   },
   
   {
